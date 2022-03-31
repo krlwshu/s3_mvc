@@ -79,7 +79,8 @@
                         if ($qCount != $cCount ) {
                     ?>
                     <div>
-                        <span><?= "<b>" . $item['template_name'] . "</b> - due date: ". $item['date_created']?></span>
+                        <span><a
+                                href="<?= base_url()?>/appraisal/template/<?= $item['id']?>"><?= $item['template_name']?></a><?= $item['date_created']?></span>
                         <small class="float-right"><?= "$cCount / $qCount answered"?></small>
                     </div>
                     <div class="progress progress-small">

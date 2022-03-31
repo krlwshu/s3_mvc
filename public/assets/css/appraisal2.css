@@ -1,0 +1,32 @@
+form p,
+form input.star-opt[type="submit"] {
+  text-align: center;
+  font-size: 20px;
+}
+
+#wrapper form input.star-opt[type="submit"] {
+  border: 1px solid #d9d9d9;
+  background-color: #efefef;
+}
+
+input.star-opt[type="radio"] {
+  display: none;
+}
+
+label.star-opt {
+  color: grey;
+}
+
+.clasificacion {
+  direction: rtl;
+  unicode-bidi: bidi-override;
+}
+
+label.star-opt:hover,
+label.star-opt:hover ~ label.star-opt {
+  color: orange;
+}
+
+input.star-opt[type="radio"]:checked ~ label.star-opt {
+  color: orange;
+}

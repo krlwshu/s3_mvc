@@ -206,3 +206,8 @@ a {
   padding-left: 1.5rem;
   margin-top: 2px;
 }
+
+/* Replacement for container */
+.content-area {
+  padding-top: 5rem !important;
+}

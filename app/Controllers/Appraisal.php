@@ -29,4 +29,21 @@ class Appraisal extends Controller
 
         return $this->response->setJSON($res);
     }
+
+    public function Template(){
+        $session = session();
+        $AppraisalModel = new AppraisalModel();
+        $uri = service('uri');
+        
+        $appId = $uri->getSegment(3) ?? 0;
+        
+
+        $data['option_groups'] = $AppraisalModel->getQuestionOptions();
+        $data['appraisalData'] = $AppraisalModel->getAppraisalData($appId);
+        
+
+        echo view("appraisal",$data);
+    }
+
+
 }

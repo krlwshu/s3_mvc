@@ -63,7 +63,7 @@
                 <a href="#" class="nav_logo">
 
                     <div style="height:15px">
-                        <img style="height: 100%; " src="<?= base_url();?>/assets/img/brand_logo_only.svg" alt="">
+                        <img style="height: 100%; " src="<?= base_url()?>/assets/img/brand_logo_only.svg" alt="">
                         <span class="nav_logo-name">Actemium</span>
                     </div>
                 </a>

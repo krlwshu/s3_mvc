@@ -93,4 +93,25 @@ class AppraisalModel extends Model
 
         
     }
+    function getAppraisalData($id)
+    {      
+        // Gets appraisal by appraisal ID
+        $db = db_connect();
+
+        $sql = "
+        SELECT * FROM app_data_view where id = $id
+        ";
+        $results = $db->query($sql)->getResult('array');
+        return $results;
+    }
+    function getQuestionOptions()
+    {      
+        $db = db_connect();
+
+        $sql = "SELECT * FROM question_options";
+        $results = $db->query($sql)->getResult('array');
+        return $results;
+
+        
+    }
 }
