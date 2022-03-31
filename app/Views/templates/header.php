@@ -16,8 +16,25 @@
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="<?= base_url();?>/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= base_url();?>/assets/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="<?= base_url();?>/assets/css/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <link href="<?= base_url();?>/assets/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
+    <link href="<?= base_url();?>/assets/css/plugins/fullcalendar/fullcalendar.print.css" rel='stylesheet'
+        media='print'>
+
+    <link href="<?= base_url();?>/assets/css/animate.css" rel="stylesheet">
+    <link href="<?= base_url();?>/assets/css/style_theme.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="<?= site_url();?>assets/css/style.css">
 
 </head>
 
@@ -25,10 +42,10 @@
     <header class="header" id="header">
         <div class="header_toggle">
             <i class='bx bx-menu' id="header-toggle"></i>
-            <h6 class="nav-title">Engineer Appraisal System</h6>
+            <h4 class="nav-title">Engineer Appraisal System</h4>
         </div>
         <div class="header_img">
-            <img src="./assets/img/avatars/john-engineer.jpg" alt="" />
+            <img src="<?= base_url();?>assets/img/avatars/john-engineer.jpg" alt="" />
         </div>
 
         <button type="button" class="btn btn-primary position-relative">
@@ -46,53 +63,37 @@
                 <a href="#" class="nav_logo">
 
                     <div style="height:15px">
-                        <img style="height: 100%; " src="./assets/img/brand_logo_only.svg" alt="">
+                        <img style="height: 100%; " src="<?= base_url();?>/assets/img/brand_logo_only.svg" alt="">
                         <span class="nav_logo-name">Actemium</span>
                     </div>
                 </a>
 
                 <div class="nav_list">
-
+                    <?php if ($_SESSION['role'] == "pm") {
+                    // PM linkgs    
+                    ?>
                     <a href="#" class="nav_link active">
                         <i class='bx bx-grid-alt nav_icon'></i>
                         <span class="nav_name">Dashboard</span>
                     </a>
-                    <a href="pmdash.php" class="nav_link">
-                        <i class='bx bx-user nav_icon'></i>
-                        <span class="nav_name">My Team</span>
-                    </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-message-square-detail nav_icon'></i>
-                        <span class="nav_name">Notifications</span>
-                    </a>
-
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-bar-chart-alt-2 nav_icon'></i>
-                        <span class="nav_name">Analytics</span>
-                    </a>
 
                     <a href="SearchData.php" class="nav_link">
                         <i class='bi bi-search nav_icon'></i>
-                        <span class="nav_name">Search Tool</span>
+                        <span class="nav_name">Analysis</span>
                     </a>
+
+                    <?php } elseif ($_SESSION['role'] == "eng") {?>
 
                     <a href="engDash.php" class="nav_link">
-                        <i class='bi bi-search nav_icon'></i>
-                        <span class="nav_name">Engineer Dashboard</span>
+                        <i class='bi bi bi-person nav_icon'></i>
+                        <span class="nav_name">My Dashboard</span>
                     </a>
 
-                    <a href="histPage.php" class="nav_link">
-                        <i class='bi bi-search nav_icon'></i>
-                        <span class="nav_name">Historic Appraisal</span>
-                    </a>
-                    <a href="appraisalPage2.php" class="nav_link">
-                        <i class='bi bi-search nav_icon'></i>
-                        <span class="nav_name">KW TESTING</span>
-                    </a>
+                    <?php } ?>
 
                 </div>
             </div>
-            <a href="signout.php" class="nav_link">
+            <a href="LoginController/Logout" class="nav_link">
                 <i class='bx bx-log-out nav_icon'></i>
                 <span class="nav_name">SignOut</span>
             </a>

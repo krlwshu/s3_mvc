@@ -29,10 +29,11 @@ class LoginController extends Controller
                     'id' => $data['id'],
                     'name' => $data['name'],
                     'email' => $data['email'],
+                    'role' => $data['role'],
                     'isLoggedIn' => TRUE
                 ];
                 $session->set($ses_data);
-                return redirect()->to('/home');
+                return redirect()->to('/profileController');
             
             }else{
                 $session->setFlashdata('msg', 'Password is incorrect.');
@@ -42,5 +43,12 @@ class LoginController extends Controller
             $session->setFlashdata('msg', 'Email does not exist.');
             return redirect()->to('/login');
         }
+    }
+
+    public function Logout(){
+
+        $session = session();
+        $session->destroy();
+        return redirect()->to('/login');
     }
 }

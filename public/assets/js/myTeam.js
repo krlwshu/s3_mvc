@@ -1,0 +1,101 @@
+
+// Assign Template to user
+const handleAssignTemplate = (event) => {
+    var element = document.getElementById(event.target.id);
+    var tempId = element.getAttribute("data-bs-tid");
+    var uid = element.getAttribute("data-bs-uid");
+
+
+    let data = {
+        uid: uid,
+        tempId: tempId
+    }
+
+    let target_url = `/Appraisal/AssignAppraisal`;
+
+
+    // Pass data to assign tempalte function
+    var url = target_url;
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+        .then(res => success(res))
+        .catch(error => failure(error));
+
+
+}
+
+const success = (res) => {
+    // console.log(res)
+    var notyf = new Notyf();
+    if (res.created >= 1) {
+        notyf.success(`Appraisal assigned successfully!`);
+        delRow(res.appId); //Delete row from UI
+    } else {
+        notyf.error(`Error assigning appraisal to user`);
+    }
+}
+
+// Rather than reload page :-)
+const delRow = (idRow) => {
+    var row = document.getElementById(idRow);
+    row.parentNode.removeChild(row);
+}
+
+const failure = (error) => {
+    console.log("Error occurred, request not processed")
+    console.log(error)
+}
+
+
+//  Set modal properties on template assignment
+var confirmAssignModal = document.getElementById('confirmAssign')
+
+confirmAssignModal.addEventListener('show.bs.modal', function (event) {
+
+    // Get data about user
+    var caller = event.relatedTarget;
+    var tName = caller.getAttribute('data-bs-temp');
+    var uName = caller.getAttribute('data-bs-uname');
+
+    // Used for submitting {later, pass the UID and template ID to server for appraisal creation}
+    var uid = caller.getAttribute('data-bs-uid');
+    var tid = caller.getAttribute('data-bs-tid');
+
+    var confirmAssignBtn = document.getElementById("btn-confirm-assign")
+    confirmAssignBtn.setAttribute("data-bs-tid", tid)
+    confirmAssignBtn.setAttribute("data-bs-uid", uid)
+
+    // Get Modal Body placeholder objects
+    var templateName = document.getElementById("modal-temp-name")
+    var assignTo = document.getElementById("modal-user")
+
+    // Update modal content
+    templateName.innerText = tName
+    assignTo.innerText = uName
+})
+
+const handleDelete = (e) => {
+
+
+    var element = document.getElementById(e.target.id);
+    var targetAppID = element.getAttribute("data-del-item");
+    let data = {
+        appId: targetAppID
+    };
+
+    var url = "../server/deleteUserApp.php";
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+        .then(res => success(res))
+        .catch(error => failure(error));
+}
