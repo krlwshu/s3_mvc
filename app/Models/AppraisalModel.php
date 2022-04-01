@@ -67,24 +67,27 @@ class AppraisalModel extends Model
         $db = db_connect();
 
         $sql = "
-        SELECT 
+            SELECT 
             a.id,
             atemp.template_name,
             count(ad.appraisal_id) AS question_count,
             COUNT(ad.response) AS completed_count,
             a.date_created,
-            a.assigned_by
-
-
-            FROM app_data ad
-
-            LEFT JOIN appraisals a ON
+            a.assigned_by,
+            a.status
+        
+        
+            FROM appraisals a
+        
+            LEFT JOIN app_data ad ON
+            
+            
             ad.appraisal_id = a.id
-
+        
             LEFT JOIN app_templates atemp ON
             a.template_id = atemp.id
-
-
+        
+        
             WHERE a.user_id = $id
             GROUP BY a.id
         ";
@@ -113,5 +116,71 @@ class AppraisalModel extends Model
         return $results;
 
         
+    }
+    function processAppraisal($appId, $payload){      
+        $db = db_connect();
+
+        $appraisalData = $this->getAppraisalData($appId);
+
+        $dbUpdArr = array();
+
+        foreach ($payload as $resp){
+            $str = $resp['name'];
+            $startPos = strpos($str, "-");
+            $strLen = strlen($str);
+            $qId  = intval(substr($str, ($startPos + 1) - $strLen));
+            
+            foreach($appraisalData as $aItem){
+                // Initialise DB item to be appended to main arr
+                $dbUpdItem = array('id'=>$qId,'response'=>($resp['value'])?$resp['value']:Null,'resp_value'=>(Null));
+
+                // Verify tempalte type (i.e. which field to insert to)
+                if($aItem['resp_id'] == $qId){
+                    // Loop through appraisal data, store integer in value field (quick metric use)
+                    
+                    if($aItem['question_type'] != "FT"){
+                        $dbUpdItem['resp_value'] = intval($resp['value']);
+                    }
+                    $dbUpdArr[] = $dbUpdItem;
+                }
+            }
+        }
+        $updStatus = false;
+        $builder = $db->table('app_data');
+        
+        $data['updates'] = $builder->updateBatch($dbUpdArr, 'id');
+        $data['percent'] = $this->getAppCompStatus($appId);
+        $data['success'] = ($data['updates'] > 0) ? true: false;
+        $data['message'] = ($data['updates']) ? "Item Updated":'Error updating item';
+        return  $data;
+    }
+
+    function getAppCompStatus($appId){
+        $db = db_connect();
+        $sql = "
+        SELECT COUNT(id) AS qCount, COUNT(response) AS qComp FROM app_data_view where id = $appId GROUP BY id limit 1";
+        $results = $db->query($sql)->getResult('array');
+
+        $percent = 0;
+        // Protect div zero
+        if($results){
+            $denom = $results[0]['qCount'];
+            $percent = (intval($results[0]['qComp']) != 0) ? (100/ $denom ) * intval($results[0]['qComp']) : 0;
+        } 
+        return $percent;
+    }
+    function updateAppraisalState($appId, $status){
+        $db = db_connect();
+        $sql = "update appraisals set status = '$status' where id = $appId";
+
+        $results['success'] = $db->query($sql);
+        $results['message'] = ($results['success'])? "Appraisal submitted for review" : "Unable to close appraisal, please check that all fields have been completed";
+        return $results;
+    }
+    function getAppProcessStatus($appId){
+        $db = db_connect();
+        $sql = "select status from appraisals where id = $appId";
+        $results = $db->query($sql)->getResult('array');
+        return $results[0]['status'];
     }
 }

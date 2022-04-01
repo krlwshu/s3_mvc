@@ -40,9 +40,29 @@ class Appraisal extends Controller
 
         $data['option_groups'] = $AppraisalModel->getQuestionOptions();
         $data['appraisalData'] = $AppraisalModel->getAppraisalData($appId);
-        
+        $data['appId'] = $appId;
+        $data['percent'] = $AppraisalModel->getAppCompStatus($appId);
+        $data['appProcessStatus'] = $AppraisalModel->getAppProcessStatus($appId);
 
         echo view("appraisal",$data);
+    }
+    public function submitAppraisal(){
+        $session = session();
+        $AppraisalModel = new AppraisalModel();
+        $appId = intval($this->request->getVar('appId'));
+        $payload = $this->request->getVar('data');
+
+        // Process updates, returns: affected rows, percent complete
+        $data = $AppraisalModel->processAppraisal($appId, $payload);
+        
+        return $this->response->setJSON($data);
+    }
+    public function completeAppraisal(){
+        $session = session();
+        $AppraisalModel = new AppraisalModel();
+        $appId = intval($this->request->getVar('appId'));
+        $data = $AppraisalModel->updateAppraisalState($appId,'Review');
+        return $this->response->setJSON($data);
     }
 
 

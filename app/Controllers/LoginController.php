@@ -7,6 +7,7 @@ class LoginController extends Controller
 {
     public function index()
     {
+        $session = session();
         helper(['form']);
         echo view('login');
     } 
