@@ -58,6 +58,11 @@
 
     </header>
     <div class="l-navbar" id="nav-bar">
+        <?php
+            // Set Active Tab
+            $uri = service('uri');
+            $activePage = $uri->getSegment(1);
+        ?>
         <nav class="nav">
             <div>
                 <a href="#" class="nav_logo">
@@ -72,19 +77,20 @@
                     <?php if ($_SESSION['role'] == "pm") {
                     // PM linkgs    
                     ?>
-                    <a href="PmDash" class="nav_link active">
+                    <a href="<?=base_url()?>/PmDash" class="nav_link <?= ($activePage == "PmDash" ? "active": "")?>">
                         <i class='bx bx-grid-alt nav_icon'></i>
                         <span class="nav_name">Dashboard</span>
                     </a>
 
-                    <a href="Analysis.php" class="nav_link">
+                    <a href="<?=base_url()?>/Analysis"
+                        class="nav_link <?= ($activePage == "Analysis" ? "active": "")?>">
                         <i class='bi bi-search nav_icon'></i>
                         <span class="nav_name">Analysis</span>
                     </a>
 
                     <?php } elseif ($_SESSION['role'] == "eng") {?>
 
-                    <a href="EngDash" class="nav_link">
+                    <a href="<?=base_url()?>/EngDash" class="nav_link <?= ($activePage == "EngDash" ? "active": "")?>">
                         <i class='bi bi bi-person nav_icon'></i>
                         <span class="nav_name">My Dashboard</span>
                     </a>

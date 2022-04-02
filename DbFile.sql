@@ -25,23 +25,20 @@ CREATE TABLE IF NOT EXISTS `appraisals` (
   `due_date` datetime DEFAULT NULL,
   `status` varchar(50) NOT NULL DEFAULT 'New',
   `assigned_by` int(11) DEFAULT 0,
-  `date_created` timestamp NULL DEFAULT current_timestamp(),
   `scheduled_date` datetime DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `last_updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `FK_appraisals_app_templates` (`template_id`),
-  KEY `FK_appraisals_sys_users` (`user_id`),
+  KEY `FK_appraisals_staff` (`user_id`),
   CONSTRAINT `FK_appraisals_app_templates` FOREIGN KEY (`template_id`) REFERENCES `app_templates` (`id`),
-  CONSTRAINT `FK_appraisals_sys_users` FOREIGN KEY (`user_id`) REFERENCES `sys_users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=363 DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT `FK_appraisals_staff` FOREIGN KEY (`user_id`) REFERENCES `staff` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=384 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.appraisals: ~5 rows (approximately)
+-- Dumping data for table actemium_hf.appraisals: ~1 rows (approximately)
 /*!40000 ALTER TABLE `appraisals` DISABLE KEYS */;
-INSERT INTO `appraisals` (`id`, `user_id`, `template_id`, `due_date`, `status`, `assigned_by`, `date_created`, `scheduled_date`) VALUES
-	(31, 2, 3, NULL, 'New', 0, '2022-03-21 00:19:16', NULL),
-	(42, 1, 2, NULL, 'New', 0, '2022-03-30 21:57:17', NULL),
-	(44, 1, 3, NULL, 'Complete', 0, '2022-03-30 21:57:59', NULL),
-	(361, 1, 3, NULL, 'Review', 0, '2022-04-01 01:09:43', NULL),
-	(362, 1, 3, NULL, 'New', 0, '2022-04-01 01:09:43', NULL);
+INSERT INTO `appraisals` (`id`, `user_id`, `template_id`, `due_date`, `status`, `assigned_by`, `scheduled_date`, `date_created`, `last_updated`) VALUES
+	(383, 1, 3, NULL, 'Review', 0, NULL, '2022-04-02 00:41:16', '2022-04-02 00:42:30');
 /*!40000 ALTER TABLE `appraisals` ENABLE KEYS */;
 
 -- Dumping structure for table actemium_hf.app_data
@@ -59,36 +56,18 @@ CREATE TABLE IF NOT EXISTS `app_data` (
   KEY `FK__appraisals` (`appraisal_id`),
   CONSTRAINT `FK__appraisals` FOREIGN KEY (`appraisal_id`) REFERENCES `appraisals` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK__sys_users` FOREIGN KEY (`user_id`) REFERENCES `sys_users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.app_data: ~25 rows (approximately)
+-- Dumping data for table actemium_hf.app_data: ~7 rows (approximately)
 /*!40000 ALTER TABLE `app_data` DISABLE KEYS */;
 INSERT INTO `app_data` (`id`, `user_id`, `response`, `resp_value`, `appraisal_id`, `date_created`, `question_id`) VALUES
-	(21, 2, '10', NULL, 31, '2022-03-23 10:17:28', 24),
-	(22, 2, 'Lorem ipsum dolor sit amet, qui minim disappointed labore adipisicing minim sint cillum sint consectetur cupidatat.', NULL, 31, NULL, 25),
-	(23, 2, 'Lorem ipsum dolor sit amet, qui minim going well happy with labore adipisicing minim sint cillum sint consectetur cupidatat.', NULL, 31, NULL, 26),
-	(24, 2, 'Lorem ipsum dolor sit amet, qui minim going well labore adipisicing minim sint need support cillum sint consectetur cupidatat.', NULL, 31, NULL, 27),
-	(95, 1, '6', 6, 44, '2022-03-30 21:57:59', 24),
-	(96, 1, '1', 1, 44, '2022-03-30 21:57:59', 25),
-	(97, 1, '2', 2, 44, '2022-03-30 21:57:59', 26),
-	(98, 1, 'dsf', NULL, 44, '2022-03-30 21:57:59', 27),
-	(99, 1, 'sdfgfdssdss', NULL, 44, '2022-03-30 21:57:59', 28),
-	(100, 1, 'sdfssddsssz', NULL, 44, '2022-03-30 21:57:59', 29),
-	(101, 1, 'sdfsfssgfdz', NULL, 44, '2022-03-30 21:57:59', 30),
-	(116, 1, '3', 3, 361, '2022-04-01 01:09:43', 24),
-	(117, 1, '3', 3, 361, '2022-04-01 01:09:43', 25),
-	(118, 1, '3', 3, 361, '2022-04-01 01:09:43', 26),
-	(119, 1, 'vb', NULL, 361, '2022-04-01 01:09:43', 27),
-	(120, 1, 'vb', NULL, 361, '2022-04-01 01:09:43', 28),
-	(121, 1, 'vb', NULL, 361, '2022-04-01 01:09:43', 29),
-	(122, 1, 'vb', NULL, 361, '2022-04-01 01:09:43', 30),
-	(123, 1, NULL, NULL, 362, '2022-04-01 01:09:43', 24),
-	(124, 1, NULL, NULL, 362, '2022-04-01 01:09:43', 25),
-	(125, 1, NULL, NULL, 362, '2022-04-01 01:09:43', 26),
-	(126, 1, NULL, NULL, 362, '2022-04-01 01:09:43', 27),
-	(127, 1, NULL, NULL, 362, '2022-04-01 01:09:43', 28),
-	(128, 1, NULL, NULL, 362, '2022-04-01 01:09:43', 29),
-	(129, 1, NULL, NULL, 362, '2022-04-01 01:09:43', 30);
+	(144, 1, '5', 5, 383, '2022-04-02 00:41:16', 24),
+	(145, 1, '2', 2, 383, '2022-04-02 00:41:16', 25),
+	(146, 1, '2', 2, 383, '2022-04-02 00:41:16', 26),
+	(147, 1, 'hj', NULL, 383, '2022-04-02 00:41:16', 27),
+	(148, 1, 'mkh', NULL, 383, '2022-04-02 00:41:16', 28),
+	(149, 1, 'ukj', NULL, 383, '2022-04-02 00:41:16', 29),
+	(150, 1, 'hjg', NULL, 383, '2022-04-02 00:41:16', 30);
 /*!40000 ALTER TABLE `app_data` ENABLE KEYS */;
 
 -- Dumping structure for view actemium_hf.app_data_view
@@ -102,7 +81,7 @@ CREATE TABLE `app_data_view` (
 	`resp_value` INT(11) NULL,
 	`resp_id` INT(11) NULL,
 	`user_id` INT(11) NULL,
-	`date_created` TIMESTAMP NULL,
+	`date_created` DATETIME NULL,
 	`option_group` INT(11) NULL,
 	`question_type` VARCHAR(250) NULL COLLATE 'utf8mb4_general_ci'
 ) ENGINE=MyISAM;
@@ -186,6 +165,18 @@ INSERT INTO `question_option_groups` (`id`, `group_name`, `date_created`) VALUES
 	(1, 'Agreement level', '2022-03-22 21:46:04');
 /*!40000 ALTER TABLE `question_option_groups` ENABLE KEYS */;
 
+-- Dumping structure for table actemium_hf.sentiment_dictionary
+CREATE TABLE IF NOT EXISTS `sentiment_dictionary` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `value` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Dumping data for table actemium_hf.sentiment_dictionary: ~0 rows (approximately)
+/*!40000 ALTER TABLE `sentiment_dictionary` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sentiment_dictionary` ENABLE KEYS */;
+
 -- Dumping structure for table actemium_hf.staff
 CREATE TABLE IF NOT EXISTS `staff` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -193,17 +184,23 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `belt` varchar(50) DEFAULT NULL,
   `line_manager` int(11) NOT NULL DEFAULT 0,
   `role` varchar(50) NOT NULL DEFAULT '0',
+  `appraisal_period_days` int(11) DEFAULT 90,
+  `user_id` int(11) DEFAULT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FK_staff_sys_users` (`line_manager`),
+  KEY `FK_staff_sys_users_2` (`user_id`),
+  CONSTRAINT `FK_staff_sys_users` FOREIGN KEY (`line_manager`) REFERENCES `sys_users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_staff_sys_users_2` FOREIGN KEY (`user_id`) REFERENCES `sys_users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.staff: ~4 rows (approximately)
+-- Dumping data for table actemium_hf.staff: ~3 rows (approximately)
 /*!40000 ALTER TABLE `staff` DISABLE KEYS */;
-INSERT INTO `staff` (`id`, `name`, `belt`, `line_manager`, `role`, `date_created`) VALUES
-	(1, 'Jon', ' Green', 0, '0', '2022-03-18 18:04:42'),
-	(2, 'Jack', 'Yellow', 0, '0', '2022-03-18 18:04:42'),
-	(3, 'Sarah', 'White', 0, '0', '2022-03-18 18:04:42'),
-	(4, 'Lucy', 'Black', 0, '0', '2022-03-18 18:04:42');
+INSERT INTO `staff` (`id`, `name`, `belt`, `line_manager`, `role`, `appraisal_period_days`, `user_id`, `date_created`) VALUES
+	(1, 'Jon Smith', ' Green', 6, '0', 90, 1, '2022-03-18 18:04:42'),
+	(2, 'Jack Black', 'Yellow', 6, '0', 90, 2, '2022-03-18 18:04:42'),
+	(3, 'Sarah Jones', 'White', 6, '0', 90, 3, '2022-03-18 18:04:42'),
+	(4, 'Lucy Green', 'Black', 6, '0', 90, 4, '2022-03-18 18:04:42');
 /*!40000 ALTER TABLE `staff` ENABLE KEYS */;
 
 -- Dumping structure for table actemium_hf.sys_users
@@ -213,19 +210,20 @@ CREATE TABLE IF NOT EXISTS `sys_users` (
   `name` varchar(50) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
   `role` varchar(50) DEFAULT NULL,
+  `avatar` varchar(50) DEFAULT NULL,
   `date_created` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table actemium_hf.sys_users: ~6 rows (approximately)
 /*!40000 ALTER TABLE `sys_users` DISABLE KEYS */;
-INSERT INTO `sys_users` (`id`, `email`, `name`, `password`, `role`, `date_created`) VALUES
-	(1, 'John@test.com', 'Jon', 'Karl1234', 'eng', '2022-03-18 17:40:24'),
-	(2, 'Jack@test.com', 'Jack', NULL, 'eng', '2022-03-18 17:40:24'),
-	(3, 'Sarah@test.com', 'Sarah', NULL, 'eng', '2022-03-18 17:40:24'),
-	(4, 'Lucy@test.com', 'Lucy', NULL, 'eng', '2022-03-18 17:40:24'),
-	(5, 'Manager@test.com', NULL, NULL, 'eng', '2022-03-20 15:54:02'),
-	(6, 'karl.webster@outlook.com', 'Karl', 'Karl1234', 'pm', '2022-03-30 16:55:01');
+INSERT INTO `sys_users` (`id`, `email`, `name`, `password`, `role`, `avatar`, `date_created`) VALUES
+	(1, 'John@test.com', 'Jon', 'Karl1234', 'eng', '/assets/img/avatars/john-engineer.jpg', '2022-03-18 17:40:24'),
+	(2, 'Jack@test.com', 'Jack', 'Karl1234', 'eng', '/assets/img/avatars/Jack.jpg', '2022-03-18 17:40:24'),
+	(3, 'Sarah@test.com', 'Sarah', 'Karl1234', 'eng', '/assets/img/avatars/Sarah.jpg', '2022-03-18 17:40:24'),
+	(4, 'Lucy@test.com', 'Lucy', 'Karl1234', 'eng', '/assets/img/avatars/Lucy.jpg', '2022-03-18 17:40:24'),
+	(5, 'Manager@test.com', NULL, 'Karl1234', 'eng', NULL, '2022-03-20 15:54:02'),
+	(6, 'karl.webster@outlook.com', 'Karl', 'Karl1234', 'pm', NULL, '2022-03-30 16:55:01');
 /*!40000 ALTER TABLE `sys_users` ENABLE KEYS */;
 
 -- Dumping structure for trigger actemium_hf.appraisals_after_insert

@@ -222,8 +222,18 @@ class AppraisalModel extends Model
         FROM appraisals a
         LEFT JOIN app_templates atemp ON
         a.template_id = atemp.id
-        LEFT JOIN staff s ON s.id = a.user_id
-        -- where status = 'Review'";
+        LEFT JOIN staff s ON s.id = a.user_id";
+
+        $results = $db->query($sql)->getResult('array');
+        return $results;
+    }
+
+
+    function searchData($searchTerm){
+        $db = db_connect();
+        $sql = "SELECT template_name, question, response 
+        FROM app_data_view WHERE 
+        question_type = 'FT' and response like '%$searchTerm%'";
 
         $results = $db->query($sql)->getResult('array');
         return $results;
