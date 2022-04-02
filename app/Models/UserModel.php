@@ -10,6 +10,7 @@ class UserModel extends Model{
         'email',
         'password',
         'role',
-        'date_created'
+        'date_created',
+        'avatar'
     ];
 }

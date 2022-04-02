@@ -6,8 +6,16 @@
         padding: 5rem !important;
     }
 
-    .ibox-content {
+    /* .ibox-content {
         height: 15rem;
+    } */
+
+    hr.hr-line-solid {
+        background-color: #23b33470;
+    }
+
+    .modal-dialog {
+        top: 20%;
     }
 </style>
 
@@ -52,7 +60,7 @@
         ?>
 
 
-            <div class="col-lg-3">
+            <div class="col-lg-12">
 
                 <div class="ibox">
                     <div class="ibox-title">
@@ -67,25 +75,28 @@
                     if($temp_question['question_type'] == 'MC' && $temp_question['option_group']){
                     foreach($option_groups as $opt){?>
 
-                        <input <?= $appStatus ?> class="q-item" type="radio" id="grp-id=<?= $opt['opt_group_id'];?>"
-                            <?= ($temp_question['resp_value'] == $opt['id']? "checked":'')?>
-                            name="resp_id-<?= $temp_question['resp_id']; ?>" value="<?= $opt['id'];?>">
-                        <label for="grp-id-<?= $opt['opt_group_id'];?>"><?= $opt['option'];?></label><br>
+
+                        <label class="pl-1 radio-inline" for="grp-id-<?= $opt['opt_group_id'];?>"><input
+                                <?= $appStatus ?> class="q-item mr-2" type="radio"
+                                id="grp-id=<?= $opt['opt_group_id'];?>"
+                                <?= ($temp_question['resp_value'] == $opt['id']? "checked":'')?>
+                                name="resp_id-<?= $temp_question['resp_id']; ?>"
+                                value="<?= $opt['id'];?>"><?= $opt['option'];?></label>
 
                         <?php } 
                     } 
                     // If free text type, then render text area
                     elseif($temp_question['question_type'] =='FT'){?>
                         <div class="media-body">
-                            <textarea <?= $appStatus ?> name="resp_id-<?= $temp_question['resp_id']; ?>" rows=3
-                                class="form-control q-item"
-                                placeholder="Write comment..."><?= $temp_question['response'] ?></textarea>
+                            <textarea <?= $appStatus ?> name="
+                                resp_id-<?= $temp_question['resp_id']; ?>" rows=3 class="form-control q-item"
+                                placeholder="Write comment - CTL+ENTER to save"><?= $temp_question['response'] ?></textarea>
                         </div>
                         <?php } 
                     // if sentiment rating - render stars
                     elseif($temp_question['question_type'] =='SR'){?>
 
-                        <p class="clasificacion">
+                        <p class="clasification">
 
                             <?php 
                         
@@ -102,6 +113,56 @@
                         </p>
                         <?php } ?>
 
+                        <?php 
+                        if($appProcessStatus !="New"){?>
+                        <div class="social-body">
+                            <hr class="hr-line-solid">
+                            <div class="btn-group">
+                                <h3>Review Notes:</h3>
+                            </div>
+                            <button data-respId="<?= $temp_question['resp_id']?>"
+                                class="create-act-btn btn btn-white btn-xs float-md-right" data-bs-toggle="modal"
+                                data-bs-target="#actionModal" aria-hidden="true">
+                                <i class="fa fa-plus"></i>
+                                Create Action
+                            </button>
+                        </div>
+                        <div class="social-footer">
+                            <div id="com-container-<?=$temp_question['resp_id']?>">
+                                <?php 
+                                if($appProcessStatus != 'New'){
+                                    foreach ($reviewComments as $reviewItem){
+                                        if($temp_question['resp_id'] == $reviewItem['ad_id']){
+                                ?>
+                                <div class="social-comment">
+                                    <a href="" class="float-left">
+                                        <img alt="image" src="<?= base_url(). $reviewItem['avatar']?>">
+                                    </a>
+                                    <div class="media-body">
+                                        <a href="#">
+                                            <?= $reviewItem['name']?>
+                                        </a>
+                                        <?= $reviewItem['comment']?>
+                                        <br>
+                                        <small class="text-success"><?= $reviewItem['comment_date']?></small>
+                                    </div>
+                                </div>
+                                <?php  }}}?>
+                            </div>
+
+                            <div class="social-comment">
+                                <a href="" class="float-left">
+                                    <img alt="image" src="<?= $_SESSION['avatar']?>">
+                                </a>
+                                <div class="media-body">
+                                    <textarea data-resp-id=<?= $reviewItem['ad_id']?>
+                                        onkeypress="handleAddComment(event)" class="form-control"
+                                        placeholder="Write comment..."></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <?php }?>
                     </div>
 
                 </div>
@@ -117,6 +178,61 @@
     </form>
     <br>
     <a href="javascript:history.back()"> Go Back</a>
+
+
+    <div id="soc-comment-template" hidden class="social-comment">
+        <a href="" class="float-left">
+            <img alt="image" src="">
+        </a>
+        <div class="media-body">
+            <a href="#">
+
+            </a>
+
+            <br>
+            <small class="text-success"></small>
+        </div>
+    </div>
+    <!-- Action modal -->
+    <div id="actionModal" class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="staticBackdropLabel"><i class="fa fa-plus" aria-hidden="true"></i>
+                        Add Follow-up Action</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="pt-2 px-3 form-group row">
+                    <label class="col-lg-2 col-form-label">Action</label>
+                    <div class="col-lg-10">
+                        <textarea id="action-summary" placeholder="Enter the action description"
+                            class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="pt-2 px-3 form-group row">
+                    <label class="col-lg-2 col-form-label">Category</label>
+                    <div class="col-lg-10">
+                        <input id="action-category" placeholder="Enter the action description"
+                            class="form-control"></input>
+                    </div>
+                </div>
+                <div class="pt-2 px-3 form-group row">
+                    <label class="col-lg-2 col-form-label">Target Date</label>
+                    <div class="col-lg-10">
+                        <input id="action-date" type="date" placeholder="Date" class="form-control">
+                    </div>
+                </div>
+
+                <span></span>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="actionSubmit" type="button" data-bs-dismiss="modal" onclick="handleSubmitAction(event)"
+                        class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -174,7 +290,7 @@
         }
 
 
-        // Manage button
+        // Manage button for completing submission
         const compAppBtnStatus = (value) => {
             btnComplete = document.getElementById('complete-app');
             if (value === 100) {
@@ -213,5 +329,102 @@
             console.log("Error occurred, request not processed")
             console.log(error)
         }
+
+        // Set create-act-btn event, prevent form re-submission
+
+        const createActionModal = (event) => {
+            event.preventDefault();
+            var id = event.target.getAttribute("data-respId");
+            var actionModal = document.getElementById("actionModal")
+            actionModal.setAttribute("data-resp-Id", id)
+        }
+
+        // Bind function to all Create Action buttons
+        var actionButtons = document.getElementsByClassName('create-act-btn');
+        for (let i = 0; i < actionButtons.length; i++) {
+            actionButtons[i].addEventListener("click", createActionModal)
+        }
+
+
+        // Submit button event
+        handleSubmitAction = (e) => {
+
+            var respIdAct = document.getElementById('actionModal').getAttribute('data-resp-Id')
+            var targDate = document.getElementById('action-date').value
+            var actionSum = document.getElementById('action-summary').value
+            var category = document.getElementById('action-category').value
+
+            let data = {
+                respIdAct,
+                targDate,
+                actionSum,
+                category
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '/Appraisal/createAction',
+                data: {
+                    data
+                }, // serializes the form's elements.
+                success: function (data) {
+                    success(data)
+                }
+            });
+        }
+
+
+
+        const updateComment = (data) => {
+
+            if (data.success) {
+                let comCont = document.getElementById(`com-container-${data.respId}`)
+
+                let comment = `<div class="social-comment animate__animated animate__fadeInLeft">
+                    <a href="" class="float-left">
+                    <img alt="image" src="${data.avatar_url}"></a>
+                    <div class="media-body">
+                        <a href="#">
+                        ${data.name}</a>
+                        ${data.comment}<br>
+                        <small class="text-success">Just Now</small>
+                    </div>
+                </div>`
+
+                const fragment = document.createRange().createContextualFragment(comment);
+                comCont.append(fragment)
+            }
+
+
+        }
+
+        // Handle Adding Comments
+        handleAddComment = (event) => {
+            if ((event.keyCode == 10 || event.keyCode == 13) && event.ctrlKey) {
+                var comment = event.srcElement.value
+                var respId = event.srcElement.getAttribute('data-resp-id')
+
+                let data = {
+                    comment,
+                    respId
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '/Appraisal/addReviewComment',
+                    data: {
+                        data
+                    }, // serializes the form's elements.
+                    success: function (data) {
+                        updateComment(data)
+                    }
+                });
+
+            }
+
+
+        }
+
+
     });
 </script>

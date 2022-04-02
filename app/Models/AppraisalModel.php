@@ -191,7 +191,9 @@ class AppraisalModel extends Model
         $db = db_connect();
         $sql = "select status from appraisals where id = $appId";
         $results = $db->query($sql)->getResult('array');
-        return $results[0]['status'];
+        if($results){
+            return $results[0]['status'];
+        } 
     }
     function getLastApp(){
         $db = db_connect();
@@ -236,6 +238,78 @@ class AppraisalModel extends Model
         question_type = 'FT' and response like '%$searchTerm%'";
 
         $results = $db->query($sql)->getResult('array');
+        return $results;
+    }
+    function schReview($data){
+        $db = db_connect();
+        $schDate = $data['date'] ." ". $data['time'];
+        $id = $data['app_id'];
+        $sql = "update appraisals set scheduled_date = '$schDate' where id = $id";
+
+        $results['updated'] = $db->query($sql);
+        return $results;
+    }
+    function getAppraisalComments($appId){
+        $db = db_connect();
+
+        $sql = "SELECT
+            su.id AS user_id,
+            adc.comment,
+            adc.comment_date,
+            su.role,
+            su.name,
+            adc.id AS comment_id,
+            ad.appraisal_id,
+            su.avatar,
+            ad.id AS ad_id
+            FROM app_review_comments adc
+            LEFT JOIN sys_users su
+            ON adc.user_id = su.id
+            left JOIN app_data ad ON adc.app_data_id = ad.id
+            WHERE ad.appraisal_id = $appId";
+
+        $results = $db->query($sql)->getResult('array');
+
+        return $results;
+    }
+    function createAction($data){
+        $db = db_connect();
+
+        $action = $data['actionSum'];
+        $targDate = $data['targDate'];
+        $assignee = $data['userId'];
+        $respId  = $data['respIdAct'];
+        $category  = $data['category'];
+
+        $sql = "insert into app_review_actions 
+        (action, target_date,assigned_to, app_data_id, category) values
+        ('$action','$targDate', $assignee,$respId,'$category')
+        
+        ";
+
+        $results['success'] = $db->query($sql);
+        if($results['success']){
+            $results['message'] = "Action Assigned";
+        } else {
+            $results['message'] = "Error creating action";
+        }
+
+        return $results;
+    }
+
+    function addReviewComment($data){
+        $db = db_connect();
+
+        $userId = $data['userId'];
+        $comment = $data['comment'];
+        $respId = $data['respId'];
+
+        $sql = "insert into app_review_comments 
+        (user_id, comment,app_data_id) values
+        ($userId,'$comment',$respId)";
+
+        $results = $db->query($sql);
+
         return $results;
     }
 }

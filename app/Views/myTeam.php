@@ -23,6 +23,10 @@
     .table-hover tbody tr:hover {
         background-color: #34e8ff45;
     }
+
+    .modal-dialog {
+        top: 20%;
+    }
 </style>
 
 
@@ -157,7 +161,7 @@
                 <div class="col-lg-6">
                     <div class="ibox">
                         <div class="ibox-title">
-                            <h2>Appraisals to Review</h2>
+                            <h2>Ready for Review</h2>
                         </div>
                         <div class="ibox-content">
 
@@ -172,9 +176,14 @@
                                                     class="pl-2 mr-2 text-success fa fa-calendar fa-2x"></i><b><?= $item['name']?></b>
                                                 submitted
                                                 <b><?= $item['template_name']?></b></p>
-                                            <a href="#" class="float-right btn btn-xs btn-white"><i
-                                                    class="fa fa-calendar" aria-hidden="true"></i> Meeting</a>
-                                            <a href="#" class="float-right btn btn-xs btn-white"><i class="fa fa-search"
+
+                                            <button class="float-right btn btn-xs btn-white" data-bs-toggle="modal"
+                                                data-app-id=<?=$item['app_id']?> data-bs-target="#meetingModal">
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>Review
+
+                                            </button>
+                                            <a href="<?= base_url()?>/Appraisal/template/<?=$item['app_id']?>"
+                                                class="float-right btn btn-xs btn-white"><i class="fa fa-search"
                                                     aria-hidden="true"></i> Review</a>
 
                                             <p class="pl-3"> <?= $item['last_updated']?></p>
@@ -215,7 +224,7 @@
 
 
 
-    <!-- Modal -->
+    <!-- Assign Modal -->
     <div id="confirmAssign" class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -231,6 +240,46 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button id="btn-confirm-assign" type="button" data-bs-dismiss="modal"
                         onclick="handleAssignTemplate(event)" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule review -->
+    <div id="meetingModal" class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="staticBackdropLabel"><i class="fa fa-calendar" aria-hidden="true"></i>
+                        Schedule Review Meeting</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="pt-2 px-3 form-group row">
+                    <label class="col-lg-2 col-form-label">Date</label>
+                    <div class="col-lg-10">
+                        <input id="meeting-date" type="date" placeholder="Email" class="form-control">
+                    </div>
+                </div>
+                <div class="px-3 form-group row">
+                    <label class="col-lg-2 col-form-label">Time</label>
+                    <div class="col-lg-10">
+                        <select id="meeting-time" class="form-select" aria-label="Default select example">
+                            <option selected>Select time...</option>
+                            <?php
+                                for($hh = 7; $hh <=18; $hh++){
+                                    echo "<option>$hh:00</option>";
+                                    echo "<option>$hh:30</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <span></span>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="btn-confirm-sch" type="button" data-bs-dismiss="modal"
+                        onclick="handleScheduleReview(event)" class="btn btn-primary">OK</button>
                 </div>
             </div>
         </div>

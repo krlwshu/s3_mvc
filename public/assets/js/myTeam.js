@@ -30,6 +30,7 @@ const handleAssignTemplate = (event) => {
 
 }
 
+
 const success = (res) => {
     // console.log(res)
     var notyf = new Notyf();
@@ -99,4 +100,54 @@ const handleDelete = (e) => {
     }).then(res => res.json())
         .then(res => success(res))
         .catch(error => failure(error));
+}
+
+
+// PM schedules meeting
+
+
+const handleScheduleReview = (event) => {
+    var element = document.getElementById(event.target.id);
+    var time = document.getElementById('meeting-time').value;
+    var date = document.getElementById('meeting-date').value;
+
+    let data = {
+        time, date, appId: element.getAttribute('data-appId')
+    }
+
+    let target_url = `/Appraisal/schReview`;
+
+
+    // Pass data to assign tempalte function
+    var url = target_url;
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+        .then(res => scheduledSuccess(res))
+        .catch(error => failure(error));
+}
+
+var schBtn = document.getElementById('meetingModal')
+
+schBtn.addEventListener('show.bs.modal', function (event) {
+    var caller = event.relatedTarget;
+    var appId = caller.getAttribute("data-app-id");
+
+    var confirmSch = document.getElementById("btn-confirm-sch")
+    confirmSch.setAttribute("data-appId", appId)
+})
+
+const scheduledSuccess = (res) => {
+    // console.log(res)
+    var notyf = new Notyf();
+    if (res.updated) {
+        notyf.success(`Meeting Scheduled`);
+        // delRow(res.appId); //Delete row from UI
+    } else {
+        notyf.error(`Error Scheduling Review`);
+    }
 }

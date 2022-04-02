@@ -1,6 +1,6 @@
 form p,
 form input.star-opt[type="submit"] {
-  text-align: center;
+  text-align: left;
   font-size: 20px;
 }
 
@@ -17,13 +17,13 @@ label.star-opt {
   color: grey;
 }
 
-.clasificacion {
+.clasification {
   direction: rtl;
   unicode-bidi: bidi-override;
 }
 
-label.star-opt:hover,
-label.star-opt:hover ~ label.star-opt {
+label.enabled.star-opt:hover,
+label.enabled.star-opt:hover ~ label.star-opt {
   color: orange;
 }
 

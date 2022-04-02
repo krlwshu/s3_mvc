@@ -35,16 +35,25 @@ class Appraisal extends Controller
         $AppraisalModel = new AppraisalModel();
         $uri = service('uri');
         
-        $appId = $uri->getSegment(3) ?? 0;
+        $appId = $uri->getSegment(3);
+        if (!$appId) {
+            return redirect()->back();
+        }
         
 
-        $data['option_groups'] = $AppraisalModel->getQuestionOptions();
-        $data['appraisalData'] = $AppraisalModel->getAppraisalData($appId);
         $data['appId'] = $appId;
+        $data['option_groups'] = $AppraisalModel->getQuestionOptions();
+        $data['reviewComments'] = $AppraisalModel->getAppraisalComments($appId);
+        $data['appraisalData'] = $AppraisalModel->getAppraisalData($appId);
         $data['percent'] = $AppraisalModel->getAppCompStatus($appId);
         $data['appProcessStatus'] = $AppraisalModel->getAppProcessStatus($appId);
 
-        echo view("appraisal",$data);
+        // Quick fix to handle invalid tempaltes
+        if (!$data['appProcessStatus']) {
+            return redirect()->back();
+        } else{
+            echo view("appraisal",$data);
+        }
     }
     public function submitAppraisal(){
         $session = session();
@@ -64,6 +73,47 @@ class Appraisal extends Controller
         $appId = intval($this->request->getVar('appId'));
         $data = $AppraisalModel->updateAppraisalState($appId,'Review');
         return $this->response->setJSON($data);
+    }
+    public function schReview(){
+        $session = session();
+        $AppraisalModel = new AppraisalModel();
+        
+        $appId = $this->request->getVar('appId');
+        $time = $this->request->getVar('time');
+        $date = $this->request->getVar('date');
+        
+        $data = [
+            'app_id' => $appId,
+            'date' => $date,
+            'time'  => $time,
+        ];
+
+        $res = $AppraisalModel->schReview($data);
+        return $this->response->setJSON($res);
+    }
+    public function createAction(){
+        $session = session();
+        $AppraisalModel = new AppraisalModel();
+        
+        // Payload contains respId (to associate action), targetDate and action summary
+        $payload = $this->request->getVar('data');
+        $payload['userId'] = $session->get('id');
+        $res = $AppraisalModel->createAction($payload);
+        return $this->response->setJSON($res);
+    }
+    public function addReviewComment(){
+        $session = session();
+        $AppraisalModel = new AppraisalModel();
+        
+        // Payload contains comment and response id
+        $payload = $this->request->getVar('data');
+        $payload['userId'] = $session->get('id');
+        $payload['name'] = $session->get('name');
+        $payload['avatar_url'] = base_url(). $session->get('avatar');
+        $payload['success'] = $AppraisalModel->addReviewComment($payload);
+
+        // Enriched payload returned, for quickness
+        return $this->response->setJSON($payload);
     }
 
 
