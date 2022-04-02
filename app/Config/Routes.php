@@ -31,7 +31,7 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'ProfileController::index',['filter' => 'authGuard']);
+// $routes->get('/', 'ProfileController::index',['filter' => 'authGuard']);
 
 /*
  * --------------------------------------------------------------------
@@ -54,4 +54,8 @@ if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
 $routes->get('/signup', 'SignupController::index');
 $routes->get('/login', 'LoginController::index');
 $routes->get('/home', 'Home::index',['filter' => 'authGuard']);
+$routes->get('/Analysis', 'Analysis::index',['filter' => 'authGuard']);
+$routes->get('/EngDash', 'EngDashController::index',['filter' => 'authGuard']);
+$routes->get('/RepDash', 'RepController::index',['filter' => 'authGuard']);
+$routes->get('/PmDash', 'PmDashController::index',['filter' => 'authGuard']);
 $routes->get('/profile', 'ProfileController::index',['filter' => 'authGuard']);

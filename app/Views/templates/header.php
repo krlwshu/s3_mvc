@@ -72,19 +72,19 @@
                     <?php if ($_SESSION['role'] == "pm") {
                     // PM linkgs    
                     ?>
-                    <a href="#" class="nav_link active">
+                    <a href="PmDash" class="nav_link active">
                         <i class='bx bx-grid-alt nav_icon'></i>
                         <span class="nav_name">Dashboard</span>
                     </a>
 
-                    <a href="SearchData.php" class="nav_link">
+                    <a href="Analysis.php" class="nav_link">
                         <i class='bi bi-search nav_icon'></i>
                         <span class="nav_name">Analysis</span>
                     </a>
 
                     <?php } elseif ($_SESSION['role'] == "eng") {?>
 
-                    <a href="engDash.php" class="nav_link">
+                    <a href="EngDash" class="nav_link">
                         <i class='bi bi bi-person nav_icon'></i>
                         <span class="nav_name">My Dashboard</span>
                     </a>
@@ -93,7 +93,7 @@
 
                 </div>
             </div>
-            <a href="LoginController/Logout" class="nav_link">
+            <a href="<?= base_url()?>/LoginController/Logout" class="nav_link">
                 <i class='bx bx-log-out nav_icon'></i>
                 <span class="nav_name">SignOut</span>
             </a>

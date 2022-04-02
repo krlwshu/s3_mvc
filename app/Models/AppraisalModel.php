@@ -7,24 +7,44 @@ use CodeIgniter\Model;
 class AppraisalModel extends Model
 {
 
-    function getUsers()
+    function getEngineers()
     {
 
         $db = db_connect();
         $getStaffSQl = "
         SELECT 
+        s.id, 
         s.name,
         s.belt,
         s.id,
         a.due_date,
         a.status,
-        GROUP_CONCAT(atemp.template_name) AS template_names,
-        GROUP_CONCAT(atemp.id) AS template_ids
+        su.avatar,
+        DATEDIFF(NOW(), max(a.date_created) ) AS last_app,
+        s.appraisal_period_days AS app_cycle
         FROM staff s
-        LEFT JOIN appraisals a ON
+        LEFT JOIN appraisals a ON 
         a.user_id = s.id
-        LEFT JOIN app_templates atemp ON atemp.id = a.template_id
-        GROUP BY s.name";
+        LEFT JOIN sys_users su ON s.user_id = su.id
+        GROUP BY s.id
+        ORDER BY last_app asc";
+        
+        // $getStaffSQl = "
+        // SELECT 
+        // s.name,
+        // s.belt,
+        // s.id,
+        // a.due_date,
+        // a.status,
+        // su.avatar,
+        // GROUP_CONCAT(atemp.template_name) AS template_names,
+        // GROUP_CONCAT(atemp.id) AS template_ids
+        // FROM staff s
+        // LEFT JOIN appraisals a ON
+        // a.user_id = s.id
+        // LEFT JOIN app_templates atemp ON atemp.id = a.template_id
+        // left join sys_users su on s.user_id = su.id
+        // GROUP BY s.name";
         
         $results = $db->query($getStaffSQl)->getResult('array');
 
@@ -54,9 +74,6 @@ class AppraisalModel extends Model
         $db = db_connect();
         $builder = $db->table('appraisals');
 
-        
-        $builder->insert($data);
-
         return $builder->insert($data);
 
         
@@ -74,20 +91,13 @@ class AppraisalModel extends Model
             COUNT(ad.response) AS completed_count,
             a.date_created,
             a.assigned_by,
-            a.status
-        
-        
+            a.status,
+            a.last_updated
             FROM appraisals a
-        
             LEFT JOIN app_data ad ON
-            
-            
             ad.appraisal_id = a.id
-        
             LEFT JOIN app_templates atemp ON
             a.template_id = atemp.id
-        
-        
             WHERE a.user_id = $id
             GROUP BY a.id
         ";
@@ -182,5 +192,40 @@ class AppraisalModel extends Model
         $sql = "select status from appraisals where id = $appId";
         $results = $db->query($sql)->getResult('array');
         return $results[0]['status'];
+    }
+    function getLastApp(){
+        $db = db_connect();
+        $sql = "SELECT 
+            s.id, s.name, 
+            DATEDIFF(NOW(), max(a.date_created) ) AS lapsed,
+            s.appraisal_period_days AS cycle
+            FROM staff s
+            LEFT JOIN appraisals a ON 
+            a.user_id = s.id
+            
+            GROUP BY s.id";
+
+        $results = $db->query($sql)->getResult('array');
+        return $results;
+    }
+    function getReviewItems(){
+        $db = db_connect();
+        $sql = "SELECT 
+        s.id AS staff_id,
+        s.name,
+        a.id AS app_id,
+        atemp.template_name,
+        a.date_created,
+        a.assigned_by,
+        a.status,
+        a.last_updated
+        FROM appraisals a
+        LEFT JOIN app_templates atemp ON
+        a.template_id = atemp.id
+        LEFT JOIN staff s ON s.id = a.user_id
+        -- where status = 'Review'";
+
+        $results = $db->query($sql)->getResult('array');
+        return $results;
     }
 }

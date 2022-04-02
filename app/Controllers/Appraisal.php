@@ -52,6 +52,7 @@ class Appraisal extends Controller
         $appId = intval($this->request->getVar('appId'));
         $payload = $this->request->getVar('data');
 
+        
         // Process updates, returns: affected rows, percent complete
         $data = $AppraisalModel->processAppraisal($appId, $payload);
         

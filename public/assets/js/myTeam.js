@@ -5,6 +5,7 @@ const handleAssignTemplate = (event) => {
     var tempId = element.getAttribute("data-bs-tid");
     var uid = element.getAttribute("data-bs-uid");
 
+    console.log("fired")
 
     let data = {
         uid: uid,
@@ -34,7 +35,7 @@ const success = (res) => {
     var notyf = new Notyf();
     if (res.created >= 1) {
         notyf.success(`Appraisal assigned successfully!`);
-        delRow(res.appId); //Delete row from UI
+        // delRow(res.appId); //Delete row from UI
     } else {
         notyf.error(`Error assigning appraisal to user`);
     }

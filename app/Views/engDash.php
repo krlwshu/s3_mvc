@@ -5,6 +5,10 @@
     .content-area {
         padding-top: 5rem !important;
     }
+
+    .progress-bar-complete {
+        background-color: #4def2a;
+    }
 </style>
 
 <div class="content-area animate__animated animate__fadeIn">
@@ -64,10 +68,10 @@
             </div>
 
 
-            <div class="ibox-content">
-                <h1>Active Appraisals</h1>
+            <div class="ibox-content mt-1 ">
+                <h2>Active Appraisals</h2>
                 <div>
-
+                    <hr class="hr-line-solid">
                     <?php 
                     $c = 0; // Counter for compelte appraisals
                     foreach($engAppraisals as $item) {
@@ -91,12 +95,12 @@
                     <?php } else {$c +=1;}}?>
                 </div>
             </div>
-            <div <?= (!$c) ? "hidden" : ""?> class="ibox-content">
-                <h1>Pending Appraisal Review </h1>
+            <div <?= (!$c) ? "hidden" : ""?> class="ibox-content mt-1 ">
+                <h2>Pending Appraisal Review </h2>
                 <div>
+                    <hr class="hr-line-solid">
 
                     <?php foreach($engAppraisals as $item) {
-                    
                         $qCount = $item['question_count'];
                         $cCount = $item['completed_count'];
                         $percComplete = ($qCount > 0) ? 100 / $qCount * $cCount : 0;
@@ -104,20 +108,22 @@
                         if ($item['status'] == "Review" ) {
                     ?>
                     <div>
-                        <span><?= "<b>" . $item['template_name'] . "</b> - due date: ". $item['date_created']?></span>
+                        <span class="font-size:1.4rem"><a class="mr-1"
+                                href="<?= base_url()?>/appraisal/template/<?= $item['id']?>">
+                                <?= $item['template_name']?></a><?= $item['date_created']?></span>
                         <small class="float-right"><?= "$cCount / $qCount answered"?></small>
                     </div>
                     <div class="progress progress-small">
-                        <div style="width: <?=$percComplete;?>%;" class="progress-bar"></div>
+                        <div style="width: <?=$percComplete;?>%;" class="progress-bar-complete"></div>
                     </div>
 
                     <?php }}?>
                 </div>
             </div>
-            <div <?= (!$c) ? "hidden" : ""?> class="ibox-content">
-                <h1>Historic Appraisals </h1>
+            <div <?= (!$c) ? "hidden" : ""?> class="ibox-content mt-1 ">
+                <h2>Historic Appraisals </h2>
                 <div>
-
+                    <hr class="hr-line-solid">
                     <?php foreach($engAppraisals as $item) {
                     
                         $qCount = $item['question_count'];
@@ -131,7 +137,7 @@
                         <small class="float-right"><?= "$cCount / $qCount answered"?></small>
                     </div>
                     <div class="progress progress-small">
-                        <div style="width: <?=$percComplete;?>%;" class="progress-bar"></div>
+                        <div style="width: <?=$percComplete;?>%;" class="progress-bar "></div>
                     </div>
 
                     <?php }}?>

@@ -34,7 +34,7 @@ class Database extends Config
         'DSN'      => '',
         'hostname' => 'localhost',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'database' => 'actemium_hf',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
@@ -60,7 +60,7 @@ class Database extends Config
         'DSN'      => '',
         'hostname' => '127.0.0.1',
         'username' => 'root',
-        'password' => 'root', // For testing
+        'password' => '', // For testing
         'database' => 'actemium_hf', //hi fidelity DB
         'DBDriver' => 'MySQLi',
         'DBPrefix' => 'db_',  // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS

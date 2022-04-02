@@ -7,20 +7,18 @@ class ProfileController extends Controller
 {
     public function index()
     {
+        // Used as routing mechanism, PM or eng still protected by authGuard
         $session = session();
-        $appModel = new AppraisalModel();
-
-        if($session->get('role') == "pm"){
-            $data['engineers'] = $appModel->getUsers();
-            $data['templates'] = $appModel->getTemplates();
-            $data['submissions'] = $appModel->getSubmitted();
-
-            return view('myTeam', $data);
+        $role = $session->get('role');
+        if($role == "pm"){
+            return redirect()->to('/PmDash');
+        } elseif($role == "eng") {
+            return redirect()->to('/EngDash');
+        } elseif($role == "rep" ){
+            return redirect()->to('/RepDash');
         } else {
-            $id = intval($session->get('id'));
-            $data['engAppraisals'] = $appModel->getEngAppraisals($id);
-
-            return view('engDash', $data);
+            // Don't know if this actually works, but shouldn't be needed
+            return redirect()->to('/LoginController/Logout');
         }
 
 

@@ -16,11 +16,11 @@
     <?php
             $appStatus = ($appProcessStatus !="New") ? "disabled":"";
             if ($appStatus == "disabled"){?>
-    <div class="alert alert-danger alert-dismissable">
+    <div class="alert alert-warning alert-dismissable">
         <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
         <h1>Appraisal Locked</h1>
         <p>
-            Appraisal is currently locked, pending review with your line manager.
+            Appraisal is locked, pending review with your line manager.
         </p>
     </div>
     <br><br>

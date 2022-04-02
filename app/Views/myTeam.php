@@ -5,154 +5,213 @@
 
 <link href='https://fonts.googleapis.com/css?family=Pontano Sans' rel='stylesheet'>
 <link rel="stylesheet" href="<?= base_url();?>/assets/css/myTeam.css">
+<link href="<?= base_url() ?>/assets/css/plugins/chartist/chartist.min.css" rel="stylesheet">
 
+<style>
+    .white-text {
+        color: white;
+    }
+
+    .table>:not(:first-child) {
+        border-top: none;
+    }
+
+    .belt {
+        max-height: 1.2rem;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #34e8ff45;
+    }
+</style>
 
 
 <div class="height-100 bg-light wrapper">
-    <br>
-
     <h1>Welcome back, <?= $_SESSION['name'] ?>!</h1>
-    <br><br><br>
-    <h4>Project Manager Dashboard</h4>
-    <hr>
-    <br>
     <div class="row">
-        <div class="col-lg-7">
-            <div>
-                <h2>Upcoming Appraisals</h2>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="widget style1 navy-bg">
+                        <div class="row vertical-align">
+                            <div class="col-3">
+                                <i class="fa fa-calendar fa-3x"></i>
+                            </div>
+                            <div class="col-9">
+                                <h2 class="font-bold white-text">0 <small>reviews scheduled this week</small></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="widget style1 bg-warning">
+                        <div class="row vertical-align">
+                            <div class="col-3">
+                                <i class="fa fa-bell fa-3x"></i>
+                            </div>
+                            <div class="col-9">
+                                <h2 class="font-bold white-text">0 <small>outstanding actions</small></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="box1">
-                <div class="component">
-                    <table class="table table-hover custom">
-                        <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Appraisal Due By</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Belt</th>
-                                <th scope="col">Active Appraisals</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row">
+                        <h1>My Team</h1>
+                        <div class="col-lg-12">
+                            <table class="table table-hover custom borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col">Due</th>
+                                        <th scope="col">Assign Appraisal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
                                 foreach ($engineers as $row) :
                                 ?>
-                            <tr>
-                                <td><?= $row['name']; ?></td>
-                                <td><?= $row['due_date']; ?></td>
-                                <td><?= $row['status']; ?></td>
-                                <td><?= $row['belt']; ?></td>
-                                <td><?= $row['template_names']; ?></td>
-                                <td class="action">
-                                    <div class="dropdown app-dropdown">
-                                        <button class="btn btn-outline-primary dropdown-toggle" type="button"
-                                            id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Appraisal
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                            <?php foreach ($templates as $t) : ?>
-                                            <li>
-                                                <button data-bs-toggle="modal" data-bs-target="#confirmAssign"
-                                                    data-bs-temp="<?= $t['template_name']; ?>"
-                                                    data-bs-tid="<?= $t['id']; ?>" data-bs-uid="<?= $row['id']; ?>"
-                                                    data-bs-uname="<?= $row['name']; ?>"
-                                                    class="dropdown-item assign-template" type="button">
-                                                    <?= $t['template_name']; ?>
+                                    <tr>
+                                        <td class="client-avatar"><a href=""><img alt="image"
+                                                    src="<?= base_url() . $row['avatar']?>"></a>
+                                        <td><a href="#contact-2" class="client-link"><?= $row['name']; ?></a></td>
+                                        <td><img class="belt" alt="image"
+                                                src="<?= base_url()?>/assets/img/belts/belt-<?= strtolower(trim($row['belt']))?>.svg">
+                                            </a></td>
+                                        <td><?= ($row['last_app'] == Null) ? "<b>Now</b>" : "In " . (intval($row['app_cycle']) - intval($row['last_app'])) . " days"?>
+                                        </td>
+
+
+                                        <td class="action">
+                                            <div class="dropdown app-dropdown">
+                                                <button class="btn btn-outline-primary dropdown-toggle btn-xs"
+                                                    type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    Select Appraisal
                                                 </button>
-                                            </li>
-                                            <?php
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <?php foreach ($templates as $t) : ?>
+                                                    <li>
+                                                        <button data-bs-toggle="modal" data-bs-target="#confirmAssign"
+                                                            data-bs-temp="<?= $t['template_name']; ?>"
+                                                            data-bs-tid="<?= $t['id']; ?>"
+                                                            data-bs-uid="<?= $row['id']; ?>"
+                                                            data-bs-uname="<?= $row['name']; ?>"
+                                                            class="dropdown-item assign-template " type="button">
+                                                            <?= $t['template_name']; ?>
+                                                        </button>
+                                                    </li>
+                                                    <?php
                                                     endforeach;
                                                     ?>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                            <?php
+                                    <?php
                                 endforeach;
                                 ?>
-                        </tbody>
-                    </table>
-                </div>
 
-            </div>
-        </div>
-
-        <div class="col-lg-3">
-
-            <h2>Team Performance</h2>
-            <div class="box2">
-                <div class="component">
-                    <br>
-                    <h5>Focus Areas </h5>
-                    <hr>
-                    <div class="row">
-                        <div class="column">
-
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="column">
-                            <!-- <img src="UI_c/chart1.jpg" alt="orange bubble" width="160" height="160">
-                                    <img src="UI_c/chart2.jpg" alt="green bubble" width="110" height="110">
-                                    <img style="margin-left:55px;" src="UI_c/chart3.jpeg" alt="blue bubble" width="170"
-                                        height="175"> -->
-                        </div>
-
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h2>Appraisals Issued</h2>
+                        </div>
+                        <div class="ibox-content">
 
-
-        <div class="row pt-lg-5">
-            <div class="col-lg-10">
-
-                <h2>Appraisal Requests</h2>
-                <div class="box2">
-                    <div class="component">
-                        <table class="table table-hover custom">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Employee ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Meeting Status</th>
-                                    <th scope="colspan-2">Actions</th>
-                                </tr>
-                            </thead>
-                            <?php
-
-
-                                if ($submissions) {
-                                    foreach ($submissions as $item) {
-                                        $id = $item["id"];
-                                        $name = $item["name"];
-                                        $duedate = $item["due_date"];
-
-                                        echo '<tr> 
-                                  <td>' . $id . '</td> 
-                                  <td>' . $name . '</td> 
-                                  <td>Response Received: Schedule Meeting</td> 
-                                  <td><button><a href="addComments.php?user_id=' . $id . '">Add Comments</a></button></td>
-                                  <td><button><a href="scheduleMeeting.php?user_id=' . $id . '&staffName=' . $name . '&date=' . $duedate . '">Schedule Meeting</a></button></td>
-                                 </tr>';
-                                    }
-                                }
+                            <div class="ibox-content">
+                                <ul class="sortable-list connectList agile-list ui-sortable" id="completed">
+                                    <?php  foreach ($pendingReview as $item) {
+                                if($item['status'] =='New'){
                                 ?>
-                        </table>
+                                    <li class="info-element">
+                                        <div class="agile-detail">
+                                            <p><i
+                                                    class="pl-2 mr-2 text-success fa fa-th-list"></i><b><?= $item['name']?></b>
+                                                assigned
+                                                <b><?= $item['template_name']?></b></p>
+                                            <a href="#" class="float-right btn btn-xs btn-white"><i
+                                                    class="text-success fa fa-bell"></i></a>
 
-
+                                            <p class="pl-3"> <?= $item['last_updated']?></p>
+                                        </div>
+                                    </li>
+                                    <?php }}?>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
+                <div class="col-lg-6">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h2>Appraisals to Review</h2>
+                        </div>
+                        <div class="ibox-content">
 
+                            <div class="ibox-content">
+                                <ul class="sortable-list connectList agile-list ui-sortable" id="completed">
+                                    <?php  foreach ($pendingReview as $item) {
+                                if($item['status'] =='Review'){
+                                ?>
+                                    <li class="info-element">
+                                        <div class="agile-detail">
+                                            <p><i
+                                                    class="pl-2 mr-2 text-success fa fa-calendar fa-2x"></i><b><?= $item['name']?></b>
+                                                submitted
+                                                <b><?= $item['template_name']?></b></p>
+                                            <a href="#" class="float-right btn btn-xs btn-white"><i
+                                                    class="fa fa-calendar" aria-hidden="true"></i> Meeting</a>
+                                            <a href="#" class="float-right btn btn-xs btn-white"><i class="fa fa-search"
+                                                    aria-hidden="true"></i> Review</a>
+
+                                            <p class="pl-3"> <?= $item['last_updated']?></p>
+                                        </div>
+                                    </li>
+                                    <?php }}?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </div>
 
+        <div class="col-lg-4">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h1>Appraisal Summary</h1>
+                </div>
+                <div class="ibox-content">
+                    <canvas id="doughnutChart" height="140"></canvas>
+                </div>
+            </div>
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h1>Sentiment Analysis <small> Positive / Negative Datasets</small></h1>
+                </div>
+                <div class="ibox-content">
+                    <div>
+                        <canvas id="barChart" height="140"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <br>
 
-
-    <br><br><br><br><br><br><br>
 
 
 
@@ -176,12 +235,90 @@
             </div>
         </div>
     </div>
-</div>
-
-<script src="<?= base_url(); ?>/assets/js/myTeam.js"></script>
 
 
-<!-- End of content - body opened/closed in header/footer -->
+    <script src="<?= base_url(); ?>/assets/js/myTeam.js"></script>
 
 
-<!-- <?= view('templates/footer'); ?> -->
+    <!-- End of content - body opened/closed in header/footer -->
+
+
+    <!-- <?= view('templates/footer'); ?> -->
+    <script src="<?= base_url()?>/assets/js/jquery-3.1.1.min.js"></script>
+    <script src="<?= base_url()?>/assets/js/plugins/chartJs/Chart.min.js"></script>
+    <!-- <script src="<?= base_url()?>/assets/js/demo/chartjs-demo.js"></script> -->
+
+    <script>
+        var barData = {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                    label: "Negative",
+                    backgroundColor: 'rgba(220, 220, 220, 0.5)',
+                    pointBorderColor: "#fff",
+                    data: [65, 59, 80, 81, 56, 55, 40]
+                },
+                {
+                    label: "Positive",
+                    backgroundColor: 'rgba(26,179,148,0.5)',
+                    borderColor: "rgba(26,179,148,0.7)",
+                    pointBackgroundColor: "rgba(26,179,148,1)",
+                    pointBorderColor: "#fff",
+                    data: [28, 48, 40, 19, 86, 27, 90]
+                }
+            ]
+        };
+        var barOptions = {
+            responsive: true
+        };
+        var ctx2 = document.getElementById("barChart").getContext("2d");
+        new Chart(ctx2, {
+            type: 'bar',
+            data: barData,
+            options: barOptions
+        });
+
+        var polarData = {
+            datasets: [{
+                data: [
+                    300, 140, 200
+                ],
+                backgroundColor: [
+                    "#a3e1d4", "#dedede", "#b5b8cf"
+                ],
+                label: [
+                    "My Radar chart"
+                ]
+            }],
+            labels: [
+                "App", "Software", "Laptop"
+            ]
+        };
+
+        var polarOptions = {
+            segmentStrokeWidth: 2,
+            responsive: true
+
+        };
+
+        // Donut 
+
+        var doughnutData = {
+            labels: ["Assigned", "Pending Review", "Completed"],
+            datasets: [{
+                data: [300, 50, 100],
+                backgroundColor: ["#03a9f4", "#ffc107", "#00ff29"]
+            }]
+        };
+
+        var doughnutOptions = {
+            responsive: true
+        };
+
+
+        var ctx4 = document.getElementById("doughnutChart").getContext("2d");
+        new Chart(ctx4, {
+            type: 'doughnut',
+            data: doughnutData,
+            options: doughnutOptions
+        });
+    </script>
