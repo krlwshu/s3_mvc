@@ -11,6 +11,7 @@ class EngDashController extends Controller
         $appModel = new AppraisalModel();
         $id = intval($session->get('id'));
         $data['engAppraisals'] = $appModel->getEngAppraisals($id);
+        $data['pendingReview'] = $appModel->getReviewItems();
         return view('engDash', $data);
 
 

@@ -3,7 +3,7 @@
 
 <style>
     .content-area {
-        padding-top: 5rem !important;
+        padding-top: 2rem !important;
     }
 
     .progress-bar-complete {
@@ -12,6 +12,7 @@
 </style>
 
 <div class="content-area animate__animated animate__fadeIn">
+    <h1>Welcome back, <?= $_SESSION['name']?>.</h1>
     <div class="row">
         <div class="col-lg-6">
             <div class="alert alert-info alert-dismissable">

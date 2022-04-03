@@ -23,7 +23,7 @@
 
     <?php
             $appStatus = ($appProcessStatus !="New") ? "disabled":"";
-            if ($appStatus == "disabled"){?>
+            if ($_SESSION['role'] != "pm" && $appStatus == "disabled"){?>
     <div class="alert alert-warning alert-dismissable">
         <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
         <h1>Appraisal Locked</h1>
@@ -73,7 +73,9 @@
                     // If question type is Multi-Choice,
                     //  and option group is set, render options (per card):                    
                     if($temp_question['question_type'] == 'MC' && $temp_question['option_group']){
-                    foreach($option_groups as $opt){?>
+                    foreach($option_groups as $opt){
+                        if($temp_question['option_group'] == $opt['opt_group_id']){
+                        ?>
 
 
                         <label class="pl-1 radio-inline" for="grp-id-<?= $opt['opt_group_id'];?>"><input
@@ -81,16 +83,16 @@
                                 id="grp-id=<?= $opt['opt_group_id'];?>"
                                 <?= ($temp_question['resp_value'] == $opt['id']? "checked":'')?>
                                 name="resp_id-<?= $temp_question['resp_id']; ?>"
-                                value="<?= $opt['id'];?>"><?= $opt['option'];?></label>
+                                value="<?= $opt['option'];?>"><?= $opt['option'];?></label>
 
-                        <?php } 
+                        <?php } }
                     } 
                     // If free text type, then render text area
                     elseif($temp_question['question_type'] =='FT'){?>
                         <div class="media-body">
                             <textarea <?= $appStatus ?> name="
                                 resp_id-<?= $temp_question['resp_id']; ?>" rows=3 class="form-control q-item"
-                                placeholder="Write comment - CTL+ENTER to save"><?= $temp_question['response'] ?></textarea>
+                                placeholder="Submit response here..."><?= $temp_question['response'] ?></textarea>
                         </div>
                         <?php } 
                     // if sentiment rating - render stars
@@ -120,12 +122,14 @@
                             <div class="btn-group">
                                 <h3>Review Notes:</h3>
                             </div>
+                            <?php if($_SESSION['role']=='pm'){?>
                             <button data-respId="<?= $temp_question['resp_id']?>"
                                 class="create-act-btn btn btn-white btn-xs float-md-right" data-bs-toggle="modal"
                                 data-bs-target="#actionModal" aria-hidden="true">
                                 <i class="fa fa-plus"></i>
                                 Create Action
                             </button>
+                            <?php }?>
                         </div>
                         <div class="social-footer">
                             <div id="com-container-<?=$temp_question['resp_id']?>">
@@ -155,7 +159,7 @@
                                     <img alt="image" src="<?= $_SESSION['avatar']?>">
                                 </a>
                                 <div class="media-body">
-                                    <textarea data-resp-id=<?= $reviewItem['ad_id']?>
+                                    <textarea data-resp-id=<?= $temp_question['resp_id']?>
                                         onkeypress="handleAddComment(event)" class="form-control"
                                         placeholder="Write comment..."></textarea>
                                 </div>

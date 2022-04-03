@@ -87,6 +87,10 @@
                         <i class='bi bi-search nav_icon'></i>
                         <span class="nav_name">Analysis</span>
                     </a>
+                    <a href="<?=base_url()?>/Report" class="nav_link <?= ($activePage == "Report" ? "active": "")?>">
+                        <i class='fa fa-area-chart nav_icon'></i>
+                        <span class="nav_name">Report</span>
+                    </a>
 
                     <?php } elseif ($_SESSION['role'] == "eng") {?>
 

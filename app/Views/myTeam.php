@@ -42,7 +42,8 @@
                                 <i class="fa fa-calendar fa-3x"></i>
                             </div>
                             <div class="col-9">
-                                <h2 class="font-bold white-text">0 <small>reviews scheduled this week</small></h2>
+                                <h2 class="font-bold white-text"><?= $actionCount?> <small>reviews scheduled this
+                                        week</small></h2>
                             </div>
                         </div>
                     </div>
@@ -54,7 +55,8 @@
                                 <i class="fa fa-bell fa-3x"></i>
                             </div>
                             <div class="col-9">
-                                <h2 class="font-bold white-text">0 <small>outstanding actions</small></h2>
+                                <h2 class="font-bold white-text"><?= $review_count?> <small>outstanding actions</small>
+                                </h2>
                             </div>
                         </div>
                     </div>
@@ -295,7 +297,6 @@
     <!-- <?= view('templates/footer'); ?> -->
     <script src="<?= base_url()?>/assets/js/jquery-3.1.1.min.js"></script>
     <script src="<?= base_url()?>/assets/js/plugins/chartJs/Chart.min.js"></script>
-    <!-- <script src="<?= base_url()?>/assets/js/demo/chartjs-demo.js"></script> -->
 
     <script>
         var barData = {

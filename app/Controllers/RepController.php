@@ -10,8 +10,9 @@ class RepController extends Controller
         $session = session();
         $appModel = new AppraisalModel();
         $id = intval($session->get('id'));
-        $data['engAppraisals'] = $appModel->getEngAppraisals($id);
-        return view('Analysis', $data);
+        $data['reportMC'] = $appModel->getReport($id);
+        $data['templates'] = $appModel->getDistTemplates($id);
+        return view('report', $data);
 
 
     }

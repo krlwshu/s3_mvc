@@ -55,6 +55,7 @@ $routes->get('/signup', 'SignupController::index');
 $routes->get('/login', 'LoginController::index');
 $routes->get('/home', 'Home::index',['filter' => 'authGuard']);
 $routes->get('/Analysis', 'Analysis::index',['filter' => 'authGuard']);
+$routes->get('/Report', 'RepController::index',['filter' => 'authGuard']);
 $routes->get('/EngDash', 'EngDashController::index',['filter' => 'authGuard']);
 $routes->get('/RepDash', 'RepController::index',['filter' => 'authGuard']);
 $routes->get('/PmDash', 'PmDashController::index',['filter' => 'authGuard']);

@@ -100,6 +100,7 @@ class AppraisalModel extends Model
             a.template_id = atemp.id
             WHERE a.user_id = $id
             GROUP BY a.id
+            order by a.date_created desc
         ";
         $results = $db->query($sql)->getResult('array');
         return $results;
@@ -148,7 +149,9 @@ class AppraisalModel extends Model
                 if($aItem['resp_id'] == $qId){
                     // Loop through appraisal data, store integer in value field (quick metric use)
                     
-                    if($aItem['question_type'] != "FT"){
+                    if($aItem['question_type'] == "MC"){
+                        $dbUpdItem['resp_value'] = $this->getOptionIdByName($aItem['option_group'], $resp['value']);
+                    }elseif($aItem['question_type'] == "SR"){
                         $dbUpdItem['resp_value'] = intval($resp['value']);
                     }
                     $dbUpdArr[] = $dbUpdItem;
@@ -163,6 +166,22 @@ class AppraisalModel extends Model
         $data['success'] = ($data['updates'] > 0) ? true: false;
         $data['message'] = ($data['updates']) ? "Item Updated":'Error updating item';
         return  $data;
+    }
+
+    function getOptionIdByName($optGroup, $option){
+
+        $db = db_connect();
+        $sql = "select id 
+        from question_options 
+        where 
+        opt_group_id = $optGroup and option = '$option' limit 1";
+        $results = $db->query($sql)->getResult('array');
+        if ($results){
+            return $results[0]['id'];
+        } else {
+            return 0;
+        }
+
     }
 
     function getAppCompStatus($appId){
@@ -312,4 +331,76 @@ class AppraisalModel extends Model
 
         return $results;
     }
+    function getActionCount($pmId){
+        $db = db_connect();
+
+        $sql = "SELECT COUNT(*) AS open_actions FROM app_review_actions
+        WHERE STATUS = 'New' AND assigned_to = $pmId";
+
+        $results = $db->query($sql)->getResult('array');
+
+        $count = 0;
+        if($results){
+            $count = $results[0]['open_actions'];
+        }
+
+        return $count;
+    }
+
+    function getReviewsThisWeek($pmId){
+        $db = db_connect();
+
+        $sql = "SELECT COUNT(*) AS review_count
+        FROM `appraisals` a
+        LEFT JOIN staff st ON a.user_id = st.id
+        WHERE a.scheduled_date <= DATE(NOW() + INTERVAL 7 DAY)
+        AND st.line_manager = $pmId";
+
+        $results = $db->query($sql)->getResult('array');
+
+        $count = 0;
+        if($results){
+            $count = $results[0]['review_count'];
+        }
+
+        return $count;
+    }
+
+    function getReport($pmId){
+        $db = db_connect();
+
+        $dataSql = "SELECT 
+        template_name,
+        question_id, 
+        question, 
+        (response) AS labels,    
+        GROUP_CONCAT(response) AS `name`,
+        GROUP_CONCAT(resp_count) AS `values` 
+        from
+        (SELECT 
+          adv.template_name, 
+          adv.question_id,
+          adv.question, 
+          adv.response,
+          COUNT(response) AS resp_count
+          from app_data_view adv
+          WHERE adv.question_type = 'MC'
+          GROUP BY question_id, response) a
+        WHERE response IS NOT null
+        GROUP BY a.question_id
+        ";
+
+
+        $results = $db->query($dataSql)->getResult('array');
+        return $results;
+    }
+
+
+    function getDistTemplates($pmId){
+        $db = db_connect();
+        $distTempSql = "select distinct template_name from app_data_view WHERE response IS NOT null";
+        $results = $db->query($distTempSql)->getResult('array');
+        return $results;
+    }
+
 }
