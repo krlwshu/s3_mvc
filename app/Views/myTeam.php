@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                     <div class="ibox">
                         <div class="ibox-content">
                             <div class="row">
@@ -133,6 +133,25 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ibox-content">
+                        <h2>Actions</h2>
+                        <small>You have open <?= $actionCount?> actions</small>
+                        <ul id="tasklist" class="todo-list m-t small-list">
+                            <?php foreach($actions as $aItem){?>
+                            <li>
+                                <input data-action-id="<?=$aItem['action_id']?>" id="action-<?=$aItem['action_id']?>"
+                                    type="checkbox" onchange="handleActionChange(event)" value="" name=""
+                                    class="i-checks" />
+                                <span class="m-l-xs"><?= $aItem['action']?></span>
+
+
+                            </li>
+
+                            <?php } ?>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -379,4 +398,36 @@
             data: doughnutData,
             options: doughnutOptions
         });
+
+
+        // Action changing
+
+
+        const handleActionChange = (event) => {
+
+            let actionInput = document.getElementById(event.target.id)
+
+            if (actionInput.checked) {
+                actionInput.nextElementSibling.classList.toggle('todo-completed')
+
+                let action_id = actionInput.getAttribute('data-action-id')
+
+                console.log(action_id)
+                var url = "/Appraisal/completeAction";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        action_id
+                    },
+                    success: function (data) {
+                        let item = document.getElementById(`action-${data.action_id}`);
+                        document.getElementById("tasklist").removeChild(item.parentElement);
+                    }
+                });
+
+            }
+
+
+        }
     </script>

@@ -427,5 +427,35 @@ class AppraisalModel extends Model
         $results = $db->query($distTempSql)->getResult('array');
         return $results;
     }
+    function getActions($pmId){
+        $db = db_connect();
+        
+        $sql = "SELECT 
+        adv.resp_id,
+        adv.id AS temp_id,
+        ara.`action`,
+        ara.id AS action_id,
+        ara.`status`,
+        ara.date_created
+        FROM 
+        app_review_actions ara
+        LEFT JOIN app_data_view adv ON
+        adv.resp_id = ara.app_data_id
+        WHERE ara.assigned_to = $pmId and status = 'New'";
+        $results = $db->query($sql)->getResult('array');
+        return $results;
+    }
+    function completeAction($id){
+        $db = db_connect();
+        
+        $sql = "update 
+        app_review_actions 
+        set status ='Complete', 
+        complete_date = now() 
+        where id = $id";
+        $results['status'] = $db->query($sql);
+        $results['sql'] = $sql;
+        return $results;
+    }
 
 }

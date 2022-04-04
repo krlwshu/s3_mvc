@@ -9,6 +9,7 @@ class PmDashController extends Controller
     {
         $session = session();
         $uid = $session->get('id');
+        
         $appModel = new AppraisalModel();
         $data['engineers'] = $appModel->getEngineers();
         $data['templates'] = $appModel->getTemplates();
@@ -18,6 +19,7 @@ class PmDashController extends Controller
         $data['actionCount'] = $appModel->getActionCount($uid);
         $data['review_count'] = $appModel->getReviewsThisWeek($uid);
         $data['report'] = $appModel->getReport($uid);
+        $data['actions'] = $appModel->getActions($uid);
         
         return view('myTeam', $data);
 

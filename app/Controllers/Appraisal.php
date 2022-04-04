@@ -117,4 +117,14 @@ class Appraisal extends Controller
     }
 
 
+    public function completeAction(){
+        $session = session();
+        $AppraisalModel = new AppraisalModel();
+        $action = intval($this->request->getVar('action_id'));
+        $resp['status'] = $AppraisalModel->completeAction($action);
+        $resp['action_id'] = $action;
+
+        return $this->response->setJSON($resp);
+    }
+
 }
