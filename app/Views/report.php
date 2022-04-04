@@ -60,7 +60,7 @@
                                 <div class="ibox-content">
                                     <div class="row">
                                         <div class="col-lg-8">
-                                            <h3></h3>
+                                            <h3><i><?= $mcItem['question']?></i></h3>
                                         </div>
                                         <div class="col-lg-4">
                                             <div>
@@ -115,13 +115,14 @@
 
         let labels = dataObj.name.split(",")
         let donutData = dataObj.values.split(",")
+        let colors = dataObj.colors.split(",")
 
 
         let config = {
             labels: labels,
             datasets: [{
                 data: donutData,
-                backgroundColor: ["#03a9f4", "#ffc107", "#00ff29"]
+                backgroundColor: colors
             }]
         };
 

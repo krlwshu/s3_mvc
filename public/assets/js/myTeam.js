@@ -1,4 +1,31 @@
 
+
+const addAppraisal = (data) => {
+
+    if (data) {
+        let appCont = document.getElementById(`app-iss-li`)
+
+        let { name, date_created, template_name, id } = data;
+        console.log(data)
+        let comment = `<ul class="sortable-list connectList agile-list ui-sortable animate__animated animate__fadeInLeft" id="completed">
+            <li class="info-element">
+                <div class="agile-detail">
+                <p><i class="pl-2 mr-2 text-success fa fa-th-list"></i><b>${name}</b>
+                assigned
+                <b>${template_name}</b></p>
+                <a href="#" class="float-right btn btn-xs btn-white"><i class="text-success fa fa-bell"></i></a>
+
+                <p class="pl-3"> ${date_created}</p>
+                </div>
+            </li>
+        </ul>`
+
+        const fragment = document.createRange().createContextualFragment(comment);
+        appCont.prepend(fragment)
+    }
+
+}
+
 // Assign Template to user
 const handleAssignTemplate = (event) => {
     var element = document.getElementById(event.target.id);
@@ -24,7 +51,10 @@ const handleAssignTemplate = (event) => {
             'Content-Type': 'application/json'
         }
     }).then(res => res.json())
-        .then(res => success(res))
+        .then(res => {
+            success(res)
+            addAppraisal(res.temp_data)
+        })
         .catch(error => failure(error));
 
 
@@ -151,3 +181,5 @@ const scheduledSuccess = (res) => {
         notyf.error(`Error Scheduling Review`);
     }
 }
+
+

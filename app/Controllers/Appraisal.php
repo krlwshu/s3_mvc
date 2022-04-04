@@ -25,7 +25,7 @@ class Appraisal extends Controller
             'template_id'  => $tempId,
         ];
 
-        $res['created'] = $AppraisalModel->assignAppraisal($data);
+        $res = $AppraisalModel->assignAppraisal($data);
 
         return $this->response->setJSON($res);
     }

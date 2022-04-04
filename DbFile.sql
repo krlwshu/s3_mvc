@@ -33,14 +33,16 @@ CREATE TABLE IF NOT EXISTS `appraisals` (
   KEY `FK_appraisals_staff` (`user_id`),
   CONSTRAINT `FK_appraisals_app_templates` FOREIGN KEY (`template_id`) REFERENCES `app_templates` (`id`),
   CONSTRAINT `FK_appraisals_staff` FOREIGN KEY (`user_id`) REFERENCES `staff` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=386 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=414 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.appraisals: ~3 rows (approximately)
+-- Dumping data for table actemium_hf.appraisals: ~5 rows (approximately)
 /*!40000 ALTER TABLE `appraisals` DISABLE KEYS */;
 INSERT INTO `appraisals` (`id`, `user_id`, `template_id`, `due_date`, `status`, `assigned_by`, `scheduled_date`, `date_created`, `last_updated`) VALUES
-	(383, 1, 3, NULL, 'Review', 0, '2022-04-09 09:00:00', '2022-04-02 00:41:16', '2022-04-02 17:41:09'),
-	(384, 3, 1, NULL, 'New', 0, NULL, '2022-04-02 13:17:00', '2022-04-02 13:17:00'),
-	(385, 4, 3, NULL, 'New', 0, NULL, '2022-04-02 14:21:22', '2022-04-02 14:21:22');
+	(398, 4, 3, NULL, 'Review', 0, NULL, '2022-04-04 01:15:45', '2022-04-04 01:17:39'),
+	(399, 3, 1, NULL, 'New', 0, NULL, '2022-04-04 01:35:20', '2022-04-04 01:35:20'),
+	(400, 3, 3, NULL, 'New', 0, NULL, '2022-04-04 01:52:32', '2022-04-04 01:52:32'),
+	(412, 1, 3, NULL, 'Review', 0, NULL, '2022-04-04 02:09:12', '2022-04-04 02:09:44'),
+	(413, 2, 1, NULL, 'New', 0, NULL, '2022-04-04 02:13:13', '2022-04-04 02:13:13');
 /*!40000 ALTER TABLE `appraisals` ENABLE KEYS */;
 
 -- Dumping structure for table actemium_hf.app_data
@@ -58,25 +60,51 @@ CREATE TABLE IF NOT EXISTS `app_data` (
   KEY `FK__appraisals` (`appraisal_id`),
   CONSTRAINT `FK__appraisals` FOREIGN KEY (`appraisal_id`) REFERENCES `appraisals` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK__sys_users` FOREIGN KEY (`user_id`) REFERENCES `sys_users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=578 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.app_data: ~14 rows (approximately)
+-- Dumping data for table actemium_hf.app_data: ~40 rows (approximately)
 /*!40000 ALTER TABLE `app_data` DISABLE KEYS */;
 INSERT INTO `app_data` (`id`, `user_id`, `response`, `resp_value`, `appraisal_id`, `date_created`, `question_id`) VALUES
-	(144, 1, '10', 10, 383, '2022-04-02 00:41:16', 24),
-	(145, 1, '2', 2, 383, '2022-04-02 00:41:16', 25),
-	(146, 1, '2', 2, 383, '2022-04-02 00:41:16', 26),
-	(147, 1, 'Test', NULL, 383, '2022-04-02 00:41:16', 27),
-	(148, 1, 'Test123', NULL, 383, '2022-04-02 00:41:16', 28),
-	(149, 1, 'Test1234', NULL, 383, '2022-04-02 00:41:16', 29),
-	(150, 1, 'Test12345', NULL, 383, '2022-04-02 00:41:16', 30),
-	(151, 4, NULL, NULL, 385, '2022-04-02 14:21:22', 24),
-	(152, 4, NULL, NULL, 385, '2022-04-02 14:21:22', 25),
-	(153, 4, NULL, NULL, 385, '2022-04-02 14:21:22', 26),
-	(154, 4, NULL, NULL, 385, '2022-04-02 14:21:22', 27),
-	(155, 4, NULL, NULL, 385, '2022-04-02 14:21:22', 28),
-	(156, 4, NULL, NULL, 385, '2022-04-02 14:21:22', 29),
-	(157, 4, NULL, NULL, 385, '2022-04-02 14:21:22', 30);
+	(338, 4, 'Strongly agree', 1, 398, '2022-04-04 01:15:45', 39),
+	(339, 4, 'I have a good work/life balance', 17, 398, '2022-04-04 01:15:45', 40),
+	(340, 4, 'No', 12, 398, '2022-04-04 01:15:45', 41),
+	(341, 4, 'Strongly disagree', 4, 398, '2022-04-04 01:15:45', 42),
+	(342, 4, 'Nope!', NULL, 398, '2022-04-04 01:15:45', 43),
+	(343, 4, 'Love it, give me more hours. I\'ll even work for free!', NULL, 398, '2022-04-04 01:15:45', 44),
+	(344, 4, '10', 10, 398, '2022-04-04 01:15:45', 45),
+	(345, 4, 'Free pizza!', NULL, 398, '2022-04-04 01:15:45', 46),
+	(353, 3, NULL, NULL, 399, '2022-04-04 01:35:20', 31),
+	(354, 3, NULL, NULL, 399, '2022-04-04 01:35:20', 32),
+	(355, 3, NULL, NULL, 399, '2022-04-04 01:35:20', 33),
+	(356, 3, NULL, NULL, 399, '2022-04-04 01:35:20', 34),
+	(357, 3, NULL, NULL, 399, '2022-04-04 01:35:20', 35),
+	(358, 3, NULL, NULL, 399, '2022-04-04 01:35:20', 36),
+	(359, 3, NULL, NULL, 399, '2022-04-04 01:35:20', 37),
+	(360, 3, NULL, NULL, 399, '2022-04-04 01:35:20', 38),
+	(368, 3, NULL, NULL, 400, '2022-04-04 01:52:32', 39),
+	(369, 3, NULL, NULL, 400, '2022-04-04 01:52:32', 40),
+	(370, 3, NULL, NULL, 400, '2022-04-04 01:52:32', 41),
+	(371, 3, NULL, NULL, 400, '2022-04-04 01:52:32', 42),
+	(372, 3, NULL, NULL, 400, '2022-04-04 01:52:32', 43),
+	(373, 3, NULL, NULL, 400, '2022-04-04 01:52:32', 44),
+	(374, 3, NULL, NULL, 400, '2022-04-04 01:52:32', 45),
+	(375, 3, NULL, NULL, 400, '2022-04-04 01:52:32', 46),
+	(548, 1, 'Strongly agree', 1, 412, '2022-04-04 02:09:12', 39),
+	(549, 1, 'I prioritize my job over my personal life', 13, 412, '2022-04-04 02:09:12', 40),
+	(550, 1, 'Yes', 11, 412, '2022-04-04 02:09:12', 41),
+	(551, 1, 'Strongly agree', 1, 412, '2022-04-04 02:09:12', 42),
+	(552, 1, 'i', NULL, 412, '2022-04-04 02:09:12', 43),
+	(553, 1, 'j', NULL, 412, '2022-04-04 02:09:12', 44),
+	(554, 1, '10', 10, 412, '2022-04-04 02:09:12', 45),
+	(555, 1, 'h', NULL, 412, '2022-04-04 02:09:12', 46),
+	(563, 2, 'Disagree', 3, 413, '2022-04-04 02:13:13', 31),
+	(564, 2, NULL, NULL, 413, '2022-04-04 02:13:13', 32),
+	(565, 2, NULL, NULL, 413, '2022-04-04 02:13:13', 33),
+	(566, 2, NULL, NULL, 413, '2022-04-04 02:13:13', 34),
+	(567, 2, NULL, NULL, 413, '2022-04-04 02:13:13', 35),
+	(568, 2, NULL, NULL, 413, '2022-04-04 02:13:13', 36),
+	(569, 2, NULL, NULL, 413, '2022-04-04 02:13:13', 37),
+	(570, 2, NULL, NULL, 413, '2022-04-04 02:13:13', 38);
 /*!40000 ALTER TABLE `app_data` ENABLE KEYS */;
 
 -- Dumping structure for view actemium_hf.app_data_view
@@ -92,7 +120,8 @@ CREATE TABLE `app_data_view` (
 	`user_id` INT(11) NULL,
 	`date_created` DATETIME NULL,
 	`option_group` INT(11) NULL,
-	`question_type` VARCHAR(250) NULL COLLATE 'utf8mb4_general_ci'
+	`question_type` VARCHAR(250) NULL COLLATE 'utf8mb4_general_ci',
+	`question_id` INT(11) NOT NULL
 ) ENGINE=MyISAM;
 
 -- Dumping structure for table actemium_hf.app_review_actions
@@ -100,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `app_review_actions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `action` varchar(250) NOT NULL DEFAULT '',
   `category` varchar(250) NOT NULL DEFAULT '',
-  `status` varchar(50) NOT NULL DEFAULT '',
+  `status` varchar(50) NOT NULL DEFAULT 'New',
   `target_date` date NOT NULL,
   `assigned_to` int(11) NOT NULL DEFAULT 0,
   `app_data_id` int(11) NOT NULL DEFAULT 0,
@@ -110,15 +139,12 @@ CREATE TABLE IF NOT EXISTS `app_review_actions` (
   KEY `FK_app_review_actions_sys_users` (`assigned_to`),
   CONSTRAINT `FK__app_data_act` FOREIGN KEY (`app_data_id`) REFERENCES `app_data` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `FK_app_review_actions_sys_users` FOREIGN KEY (`assigned_to`) REFERENCES `sys_users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table actemium_hf.app_review_actions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `app_review_actions` DISABLE KEYS */;
 INSERT INTO `app_review_actions` (`id`, `action`, `category`, `status`, `target_date`, `assigned_to`, `app_data_id`, `date_created`) VALUES
-	(3, 'asd', 'asd', '', '2022-04-10', 6, 144, '2022-04-02 20:28:41'),
-	(4, 'Test if assigned to the right resp ID', 'Development', '', '2022-04-17', 6, 145, '2022-04-02 20:34:32'),
-	(5, 'asd', 'asd', '', '2022-04-16', 6, 144, '2022-04-02 21:10:36'),
-	(6, 'asd', 'asd', '', '2022-04-16', 6, 144, '2022-04-02 21:10:54');
+	(9, 'Organise free pizza!', 'pizza', 'New', '2022-04-17', 6, 345, '2022-04-04 01:18:51');
 /*!40000 ALTER TABLE `app_review_actions` ENABLE KEYS */;
 
 -- Dumping structure for table actemium_hf.app_review_comments
@@ -133,27 +159,13 @@ CREATE TABLE IF NOT EXISTS `app_review_comments` (
   KEY `FK__app_data` (`app_data_id`),
   CONSTRAINT `FK__app_data` FOREIGN KEY (`app_data_id`) REFERENCES `app_data` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `FK__sys_users_c` FOREIGN KEY (`user_id`) REFERENCES `sys_users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table actemium_hf.app_review_comments: ~0 rows (approximately)
 /*!40000 ALTER TABLE `app_review_comments` DISABLE KEYS */;
 INSERT INTO `app_review_comments` (`id`, `user_id`, `comment`, `app_data_id`, `comment_date`) VALUES
-	(1, 6, 'Keep up the good work!', 144, '2022-04-02 16:35:37'),
-	(2, 6, 'asdasd', 144, '2022-04-02 21:11:48'),
-	(3, 6, 'asdasd', 144, '2022-04-02 21:21:01'),
-	(4, 6, '', 144, '2022-04-02 21:22:19'),
-	(5, 6, '', 144, '2022-04-02 21:25:27'),
-	(6, 6, '', 144, '2022-04-02 21:31:19'),
-	(7, 6, 'xdfv', 144, '2022-04-02 21:32:54'),
-	(8, 6, 'xdfv', 144, '2022-04-02 21:32:56'),
-	(9, 6, 'asdasd', 144, '2022-04-02 21:33:46'),
-	(10, 6, 'Karl', 144, '2022-04-02 21:34:21'),
-	(11, 6, 'asdasdasd', 144, '2022-04-02 21:56:36'),
-	(12, 6, 'asdasdasd', 144, '2022-04-02 21:57:16'),
-	(13, 6, 'sdf', 144, '2022-04-02 21:57:25'),
-	(14, 6, 'asdasd', 144, '2022-04-02 21:57:51'),
-	(15, 6, 'asdasd', 144, '2022-04-02 22:51:53'),
-	(16, 6, 'asd', 144, '2022-04-02 22:56:08');
+	(25, 6, 'Consider it done!', 345, '2022-04-04 01:18:19'),
+	(26, 6, 'jhkj', 548, '2022-04-04 02:10:11');
 /*!40000 ALTER TABLE `app_review_comments` ENABLE KEYS */;
 
 -- Dumping structure for table actemium_hf.app_templates
@@ -166,13 +178,11 @@ CREATE TABLE IF NOT EXISTS `app_templates` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.app_templates: ~4 rows (approximately)
+-- Dumping data for table actemium_hf.app_templates: ~2 rows (approximately)
 /*!40000 ALTER TABLE `app_templates` DISABLE KEYS */;
 INSERT INTO `app_templates` (`id`, `template_name`, `created_by`, `visibility`, `date_created`) VALUES
 	(1, 'New Starter Review', NULL, NULL, '2022-03-18 18:20:02'),
-	(2, 'Junior Engineer', NULL, NULL, '2022-03-18 18:20:16'),
-	(3, 'Work - Life Balance', NULL, NULL, '2022-03-18 18:21:03'),
-	(4, 'Senior Engineer', NULL, NULL, '2022-03-18 18:21:14');
+	(3, 'Work - Life Balance', NULL, NULL, '2022-03-18 18:21:03');
 /*!40000 ALTER TABLE `app_templates` ENABLE KEYS */;
 
 -- Dumping structure for table actemium_hf.app_temp_questions
@@ -182,21 +192,31 @@ CREATE TABLE IF NOT EXISTS `app_temp_questions` (
   `question_type` varchar(250) DEFAULT NULL,
   `template_id` int(11) DEFAULT NULL,
   `option_group` int(11) DEFAULT NULL,
+  `order` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_app_temp_questions_app_templates` (`template_id`),
   CONSTRAINT `FK_app_temp_questions_app_templates` FOREIGN KEY (`template_id`) REFERENCES `app_templates` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.app_temp_questions: ~7 rows (approximately)
+-- Dumping data for table actemium_hf.app_temp_questions: ~16 rows (approximately)
 /*!40000 ALTER TABLE `app_temp_questions` DISABLE KEYS */;
-INSERT INTO `app_temp_questions` (`id`, `question`, `question_type`, `template_id`, `option_group`) VALUES
-	(24, 'In the last year the things I did that had a positive impact on the performance of the business were', 'SR', 3, NULL),
-	(25, 'In the last year the things I did that had a positive impact on my customers work', 'MC', 3, 1),
-	(26, 'In the last year the things I did that had a positive impact on my fellow engineers were..', 'MC', 3, 1),
-	(27, 'In the last year the new skills I learnt and understand to have gained are', 'FT', 3, NULL),
-	(28, 'In the last year the partnerships I have built and strengthened with people are ', 'FT', 3, NULL),
-	(29, 'The role I would be like to be doing in the future and my timescale for achieving this', 'FT', 3, NULL),
-	(30, 'The things I don’t like doing in my current role are', 'FT', 3, NULL);
+INSERT INTO `app_temp_questions` (`id`, `question`, `question_type`, `template_id`, `option_group`, `order`) VALUES
+	(31, 'I am comfortable with approaching my line manager if I have any concerns ', 'MC', 1, 1, 1),
+	(32, 'I have been familiarised with the workplace/systems and can confidently navigate', 'MC', 1, 1, 4),
+	(33, 'I can rely on my team to provide support where needed', 'MC', 1, 1, 3),
+	(34, 'I feel my opinion is valued by the team', 'MC', 1, 1, 6),
+	(35, 'Do you feel actemium can support you to achieve your career goals based on your experiences so far? ', 'FT', 1, NULL, 7),
+	(36, 'I prefer to communicate my opinions', 'MC', 1, 1, 5),
+	(37, 'I can execute a task well when I can contribute to the: ', 'MC', 1, 2, 2),
+	(38, 'My overall satisfaction of working with Actemium is', 'SR', 1, NULL, 8),
+	(39, 'Since transitioning into remote work I have found it easy to adjust', 'MC', 3, 1, 7),
+	(40, 'Which of the following statements best describes your work/life balance', 'MC', 3, 4, 8),
+	(41, 'Have you missed a personal event because of work?', 'MC', 3, 3, 6),
+	(42, 'Do you feel your team leader/project manager respect your work life balance? ', 'MC', 3, 1, 3),
+	(43, 'Have you ever suffered from work-related illness or burnout? If so please describe.', 'FT', 3, NULL, 5),
+	(44, 'Are you currently satisfied with how many hours you work a week?', 'FT', 3, NULL, 1),
+	(45, 'Do you feel you can cope with the number of tasks you have been given? (1-10 scale, 1 being ‘I can’t cope at all’ and 10 being ‘I can cope completely’) ', 'SR', 3, NULL, 2),
+	(46, 'Do you have any suggestions on how the company can support you in developing a healthy work life balance?', 'FT', 3, NULL, 4);
 /*!40000 ALTER TABLE `app_temp_questions` ENABLE KEYS */;
 
 -- Dumping structure for table actemium_hf.question_options
@@ -206,19 +226,30 @@ CREATE TABLE IF NOT EXISTS `question_options` (
   `opt_group_id` int(11) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   `date_created` timestamp NULL DEFAULT current_timestamp(),
+  `opt_color` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_question_options_question_option_groups` (`opt_group_id`),
   CONSTRAINT `FK_question_options_question_option_groups` FOREIGN KEY (`opt_group_id`) REFERENCES `question_option_groups` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.question_options: ~5 rows (approximately)
+-- Dumping data for table actemium_hf.question_options: ~15 rows (approximately)
 /*!40000 ALTER TABLE `question_options` DISABLE KEYS */;
-INSERT INTO `question_options` (`id`, `option`, `opt_group_id`, `order`, `date_created`) VALUES
-	(1, 'Strongly agree', 1, 1, NULL),
-	(2, 'Agree', 1, 2, NULL),
-	(3, 'Disagree', 1, 5, NULL),
-	(4, 'Strongly disagree', 1, 3, NULL),
-	(5, 'Neutral', 1, 4, NULL);
+INSERT INTO `question_options` (`id`, `option`, `opt_group_id`, `order`, `date_created`, `opt_color`) VALUES
+	(1, 'Strongly agree', 1, 1, NULL, '#2bff00'),
+	(2, 'Agree', 1, 2, NULL, '#00ffae'),
+	(3, 'Disagree', 1, 5, NULL, '#e38800'),
+	(4, 'Strongly disagree', 1, 3, NULL, '#ed4763'),
+	(5, 'Neutral', 1, 4, NULL, '#a1a1a1'),
+	(6, 'Documentation', 2, 1, '2022-04-03 17:17:32', '#ff24cc'),
+	(7, 'Planning', 2, 2, '2022-04-03 17:18:07', '#b4bf75'),
+	(8, 'Leading of others', 2, 3, '2022-04-03 17:18:24', '#8675bf'),
+	(9, 'Client communication', 2, 5, '2022-04-03 17:18:44', '#7596bf'),
+	(10, 'Technical areas', 2, 4, '2022-04-03 17:19:04', '#bf75bf'),
+	(11, 'Yes', 3, 1, '2022-04-03 17:34:40', '#3deb34'),
+	(12, 'No', 3, 2, '2022-04-03 17:34:44', '#eb8334'),
+	(13, 'I prioritize my job over my personal life', 4, 1, '2022-04-03 17:40:15', '#34e5eb'),
+	(14, 'I prioritize my family over my work', 4, 2, '2022-04-03 17:40:34', '#3465eb'),
+	(17, 'I have a good work/life balance', 4, 3, '2022-04-03 17:42:21', '#3deb34');
 /*!40000 ALTER TABLE `question_options` ENABLE KEYS */;
 
 -- Dumping structure for table actemium_hf.question_option_groups
@@ -227,12 +258,15 @@ CREATE TABLE IF NOT EXISTS `question_option_groups` (
   `group_name` varchar(50) DEFAULT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.question_option_groups: ~0 rows (approximately)
+-- Dumping data for table actemium_hf.question_option_groups: ~4 rows (approximately)
 /*!40000 ALTER TABLE `question_option_groups` DISABLE KEYS */;
 INSERT INTO `question_option_groups` (`id`, `group_name`, `date_created`) VALUES
-	(1, 'Agreement level', '2022-03-22 21:46:04');
+	(1, 'Agreement level', '2022-03-22 21:46:04'),
+	(2, 'Strengths', '2022-04-03 17:16:12'),
+	(3, 'Yes/No', '2022-04-03 17:34:28'),
+	(4, 'Priorities WLB', '2022-04-03 17:39:30');
 /*!40000 ALTER TABLE `question_option_groups` ENABLE KEYS */;
 
 -- Dumping structure for table actemium_hf.sentiment_dictionary
@@ -292,7 +326,7 @@ INSERT INTO `sys_users` (`id`, `email`, `name`, `password`, `role`, `avatar`, `d
 	(2, 'Jack@test.com', 'Jack', 'Karl1234', 'eng', '/assets/img/avatars/Jack.jpg', '2022-03-18 17:40:24'),
 	(3, 'Sarah@test.com', 'Sarah', 'Karl1234', 'eng', '/assets/img/avatars/Sarah.jpg', '2022-03-18 17:40:24'),
 	(4, 'Lucy@test.com', 'Lucy', 'Karl1234', 'eng', '/assets/img/avatars/Lucy.jpg', '2022-03-18 17:40:24'),
-	(5, 'Manager@test.com', NULL, 'Karl1234', 'eng', NULL, '2022-03-20 15:54:02'),
+	(5, 'Manager@test.com', 'Test Manager', 'Karl1234', 'eng', '/assets/img/avatars/Jack.jpg', '2022-03-20 15:54:02'),
 	(6, 'karl.webster@outlook.com', 'Karl', 'Karl1234', 'pm', '/assets/img/avatars/Jack.jpg', '2022-03-30 16:55:01');
 /*!40000 ALTER TABLE `sys_users` ENABLE KEYS */;
 
@@ -322,7 +356,8 @@ ad.id AS resp_id,
 `a`.`user_id` AS `user_id`,
 `a`.`date_created` AS `date_created`,
 `atp`.`option_group` AS `option_group`,
-`atp`.`question_type` AS `question_type` 
+`atp`.`question_type` AS `question_type`,
+atp.id AS question_id
 from (((`appraisals` `a` left join `app_data` `ad` on((`ad`.`appraisal_id` = `a`.`id`))) join `app_temp_questions` `atp` on((`ad`.`question_id` = `atp`.`id`))) join `app_templates` `atemp` on((`a`.`template_id` = `atemp`.`id`))) ;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

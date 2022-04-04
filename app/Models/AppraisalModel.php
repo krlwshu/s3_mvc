@@ -74,7 +74,29 @@ class AppraisalModel extends Model
         $db = db_connect();
         $builder = $db->table('appraisals');
 
-        return $builder->insert($data);
+        $res['created'] = $builder->insert($data);
+        $tId = $db->insertID();
+        $res['temp_data'] = $this->getAssignedByIdBasic($tId)[0];
+        
+        return $res;
+
+        
+    }
+    function getAssignedByIdBasic($tId)
+    {      
+        $db = db_connect();
+        $sql = "SELECT 
+            a.id, 
+            st.`name`, 
+            a.date_created,
+            atmp.template_name
+            FROM appraisals a
+            LEFT join staff st ON st.id = a.user_id 
+            LEFT JOIN app_templates atmp ON a.template_id = atmp.id
+            WHERE a.id = $tId";
+
+        $results = $db->query($sql)->getResult('array');
+        return $results;
 
         
     }
@@ -373,22 +395,25 @@ class AppraisalModel extends Model
         template_name,
         question_id, 
         question, 
-        (response) AS labels,    
         GROUP_CONCAT(response) AS `name`,
-        GROUP_CONCAT(resp_count) AS `values` 
+        GROUP_CONCAT(resp_count) AS `values`,
+        GROUP_CONCAT(opt_color) AS `colors` 
         from
         (SELECT 
           adv.template_name, 
           adv.question_id,
           adv.question, 
           adv.response,
+          adv.option_group,
+          qo.`opt_color`,
           COUNT(response) AS resp_count
           from app_data_view adv
+          LEFT JOIN question_options qo ON qo.opt_group_id = adv.option_group
+          AND qo.option = adv.response
           WHERE adv.question_type = 'MC'
           GROUP BY question_id, response) a
-        WHERE response IS NOT null
-        GROUP BY a.question_id
-        ";
+          WHERE response IS NOT null
+        GROUP BY a.question_id";
 
 
         $results = $db->query($dataSql)->getResult('array');

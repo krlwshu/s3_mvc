@@ -42,7 +42,7 @@
                                 <i class="fa fa-calendar fa-3x"></i>
                             </div>
                             <div class="col-9">
-                                <h2 class="font-bold white-text"><?= $actionCount?> <small>reviews scheduled this
+                                <h2 class="font-bold white-text"><?= $review_count?> <small>reviews scheduled this
                                         week</small></h2>
                             </div>
                         </div>
@@ -55,76 +55,83 @@
                                 <i class="fa fa-bell fa-3x"></i>
                             </div>
                             <div class="col-9">
-                                <h2 class="font-bold white-text"><?= $review_count?> <small>outstanding actions</small>
+                                <h2 class="font-bold white-text"><?= $actionCount?> <small>outstanding actions</small>
                                 </h2>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="ibox">
-                <div class="ibox-content">
-                    <div class="row">
-                        <h1>My Team</h1>
-                        <div class="col-lg-12">
-                            <table class="table table-hover custom borderless">
-                                <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col">Due</th>
-                                        <th scope="col">Assign Appraisal</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="row">
+                                <h1>My Team's Appraisals</h1>
+                                <div class="col-lg-12">
+                                    <table class="table table-hover custom borderless">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col"></th>
+                                                <th scope="col"></th>
+                                                <th scope="col">Due</th>
+                                                <th scope="col">Assign Appraisal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
                                 foreach ($engineers as $row) :
                                 ?>
-                                    <tr>
-                                        <td class="client-avatar"><a href=""><img alt="image"
-                                                    src="<?= base_url() . $row['avatar']?>"></a>
-                                        <td><a href="#contact-2" class="client-link"><?= $row['name']; ?></a></td>
-                                        <td><img class="belt" alt="image"
-                                                src="<?= base_url()?>/assets/img/belts/belt-<?= strtolower(trim($row['belt']))?>.svg">
-                                            </a></td>
-                                        <td><?= ($row['last_app'] == Null) ? "<b>Now</b>" : "In " . (intval($row['app_cycle']) - intval($row['last_app'])) . " days"?>
-                                        </td>
+                                            <tr>
+                                                <td class="client-avatar"><a href=""><img alt="image"
+                                                            src="<?= base_url() . $row['avatar']?>"></a>
+                                                <td><a href="#contact-2" class="client-link"><?= $row['name']; ?></a>
+                                                </td>
+                                                <td><img class="belt" alt="image"
+                                                        src="<?= base_url()?>/assets/img/belts/belt-<?= strtolower(trim($row['belt']))?>.svg">
+                                                    </a></td>
+                                                <td><?= ($row['last_app'] == Null) ? "<b>Now</b>" : "In " . (intval($row['app_cycle']) - intval($row['last_app'])) . " days"?>
+                                                </td>
 
 
-                                        <td class="action">
-                                            <div class="dropdown app-dropdown">
-                                                <button class="btn btn-outline-primary dropdown-toggle btn-xs"
-                                                    type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                    Select Appraisal
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                    <?php foreach ($templates as $t) : ?>
-                                                    <li>
-                                                        <button data-bs-toggle="modal" data-bs-target="#confirmAssign"
-                                                            data-bs-temp="<?= $t['template_name']; ?>"
-                                                            data-bs-tid="<?= $t['id']; ?>"
-                                                            data-bs-uid="<?= $row['id']; ?>"
-                                                            data-bs-uname="<?= $row['name']; ?>"
-                                                            class="dropdown-item assign-template " type="button">
-                                                            <?= $t['template_name']; ?>
+                                                <td class="action">
+                                                    <div class="dropdown app-dropdown">
+                                                        <button class="btn btn-outline-primary dropdown-toggle btn-xs"
+                                                            type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            Select Appraisal
                                                         </button>
-                                                    </li>
-                                                    <?php
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                            <?php foreach ($templates as $t) : ?>
+                                                            <li>
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#confirmAssign"
+                                                                    data-bs-temp="<?= $t['template_name']; ?>"
+                                                                    data-bs-tid="<?= $t['id']; ?>"
+                                                                    data-bs-uid="<?= $row['id']; ?>"
+                                                                    data-bs-uname="<?= $row['name']; ?>"
+                                                                    class="dropdown-item assign-template "
+                                                                    type="button">
+                                                                    <?= $t['template_name']; ?>
+                                                                </button>
+                                                            </li>
+                                                            <?php
                                                     endforeach;
                                                     ?>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
 
-                                    <?php
+                                            <?php
                                 endforeach;
                                 ?>
 
-                                </tbody>
-                            </table>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -138,7 +145,8 @@
                         <div class="ibox-content">
 
                             <div class="ibox-content">
-                                <ul class="sortable-list connectList agile-list ui-sortable" id="completed">
+                                <ul id="app-iss-li" class="sortable-list connectList agile-list ui-sortable"
+                                    id="completed">
                                     <?php  foreach ($pendingReview as $item) {
                                 if($item['status'] =='New'){
                                 ?>
