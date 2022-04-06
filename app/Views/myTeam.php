@@ -177,6 +177,8 @@
                                                 <b><?= $item['template_name']?></b></p>
                                             <a href="#" class="float-right btn btn-xs btn-white"><i
                                                     class="text-success fa fa-bell"></i></a>
+                                            <a href="#" class="float-right btn btn-xs btn-white"><i
+                                                    class="text-success fa fa-trash text-danger"></i></a>
 
                                             <p class="pl-3"> <?= $item['last_updated']?></p>
                                         </div>

@@ -17,11 +17,15 @@
         <div class="col-lg-6">
             <div class="alert alert-info alert-dismissable">
                 <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                <h3>Quick Notes</h3>
+                <h3>Important Information</h3>
                 <ul>
                     <li>Make sure to check your personal inbox for any important information</li>
                     <li>Mentor opportunities are now available email your team leaders for more information</li>
                     <li>Schedule your appraisal evaluation as soon as possible as availability may vary</li>
+                    <li>Read our privacy policy here <a href="" data-toggle="modal" data-target="#myModal"><i
+                                class="fa fa-info-circle" aria-hidden="true"></i>here</a>
+                    </li>
+
                 </ul>
             </div>
 
@@ -177,7 +181,60 @@
 
 
 </div>
+<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title"><i class="fa fa-info"></i> Privacy Notice</h4>
+                <small class="font-bold">Important information about how your data is used</small>
+            </div>
+            <div class="modal-body">
+                <strong>Actemium Privacy Policy: 31/03/2022</strong>
 
+                <p> How we get the personal information and why we have it
+                    Most of the personal information we process is provided to us directly by you for one of the
+                    following reasons:
+                    • To facilitate discussion about your experience at Actemium and identify development opportunities.
+                    We use the information that you have given us in order to
+                    Under the General Data Protection Regulation (GDPR), the lawful bases we rely on for processing this
+                    information is a) Legitimate Interest b) Your consent. You are able to remove your consent at any
+                    time. You can do this by contacting: martin.hammond@actemium.co.uk
+                    How we store your personal information
+                    Your information is securely stored.
+                    We keep this information for the duration of your employment with Actemium. We will then dispose
+                    your information by removing your appraisal records from our databases. Any data used for analysis
+                    will be anonymised to protect your privacy rights.</p>
+                <p>
+                    <br>
+                    <strong>Your data protection rights</strong>
+                    Under data protection law, you have rights including:
+                    Your right of access - You have the right to ask us for copies of your personal information.
+                    Your right to rectification - You have the right to ask us to rectify personal information you think
+                    is inaccurate. You also have the right to ask us to complete information you think is incomplete.
+                    Your right to erasure - You have the right to ask us to erase your personal information in certain
+                    circumstances.
+
+                </p>
+                <br>
+                <p> <b>Your right to restriction of processing</b> - You have the right to ask us to restrict the
+                    processing of
+                    your personal information in certain circumstances.
+                    Your right to object to processing - You have the the right to object to the processing of your
+                    personal information in certain circumstances.
+                    Your right to data portability - You have the right to ask that we transfer the personal information
+                    you gave us to another organisation, or to you, in certain circumstances.
+                    You are not required to pay any charge for exercising your rights. If you make a request, we have
+                    one month to respond to you.</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <?=  view('templates/footer'); ?>

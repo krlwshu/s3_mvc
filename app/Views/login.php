@@ -21,7 +21,7 @@
         </div>
         <div class="loginLeft">
             <div class="slogan animate__animated animate__fadeInUp animate__delay-1s">
-                <h1> Design, Build, Maintain solutions for industry </h1>
+                <h1> Design, Build, Maintain Solutions for Industry </h1>
             </div>
         </div>
         <div class="loginRight">

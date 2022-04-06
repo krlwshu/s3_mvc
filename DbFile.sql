@@ -33,16 +33,20 @@ CREATE TABLE IF NOT EXISTS `appraisals` (
   KEY `FK_appraisals_staff` (`user_id`),
   CONSTRAINT `FK_appraisals_app_templates` FOREIGN KEY (`template_id`) REFERENCES `app_templates` (`id`),
   CONSTRAINT `FK_appraisals_staff` FOREIGN KEY (`user_id`) REFERENCES `staff` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=414 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=418 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.appraisals: ~5 rows (approximately)
+-- Dumping data for table actemium_hf.appraisals: ~6 rows (approximately)
 /*!40000 ALTER TABLE `appraisals` DISABLE KEYS */;
 INSERT INTO `appraisals` (`id`, `user_id`, `template_id`, `due_date`, `status`, `assigned_by`, `scheduled_date`, `date_created`, `last_updated`) VALUES
 	(398, 4, 3, NULL, 'Review', 0, NULL, '2022-04-04 01:15:45', '2022-04-04 01:17:39'),
 	(399, 3, 1, NULL, 'New', 0, NULL, '2022-04-04 01:35:20', '2022-04-04 01:35:20'),
 	(400, 3, 3, NULL, 'New', 0, NULL, '2022-04-04 01:52:32', '2022-04-04 01:52:32'),
 	(412, 1, 3, NULL, 'Review', 0, NULL, '2022-04-04 02:09:12', '2022-04-04 02:09:44'),
-	(413, 2, 1, NULL, 'New', 0, NULL, '2022-04-04 02:13:13', '2022-04-04 02:13:13');
+	(413, 2, 1, NULL, 'New', 0, NULL, '2022-04-04 02:13:13', '2022-04-04 02:13:13'),
+	(414, 1, 1, NULL, 'Review', 0, '2022-04-16 15:00:00', '2022-04-04 11:03:33', '2022-04-04 11:05:46'),
+	(415, 1, 3, NULL, 'New', 0, NULL, '2022-04-04 13:54:37', '2022-04-04 13:54:37'),
+	(416, 2, 3, NULL, 'New', 0, NULL, '2022-04-04 13:54:55', '2022-04-04 13:54:55'),
+	(417, 1, 1, NULL, 'Review', 0, '2022-04-13 13:00:00', '2022-04-04 15:35:23', '2022-04-04 15:38:31');
 /*!40000 ALTER TABLE `appraisals` ENABLE KEYS */;
 
 -- Dumping structure for table actemium_hf.app_data
@@ -60,9 +64,9 @@ CREATE TABLE IF NOT EXISTS `app_data` (
   KEY `FK__appraisals` (`appraisal_id`),
   CONSTRAINT `FK__appraisals` FOREIGN KEY (`appraisal_id`) REFERENCES `appraisals` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK__sys_users` FOREIGN KEY (`user_id`) REFERENCES `sys_users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=578 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=631 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.app_data: ~40 rows (approximately)
+-- Dumping data for table actemium_hf.app_data: ~48 rows (approximately)
 /*!40000 ALTER TABLE `app_data` DISABLE KEYS */;
 INSERT INTO `app_data` (`id`, `user_id`, `response`, `resp_value`, `appraisal_id`, `date_created`, `question_id`) VALUES
 	(338, 4, 'Strongly agree', 1, 398, '2022-04-04 01:15:45', 39),
@@ -104,7 +108,39 @@ INSERT INTO `app_data` (`id`, `user_id`, `response`, `resp_value`, `appraisal_id
 	(567, 2, NULL, NULL, 413, '2022-04-04 02:13:13', 35),
 	(568, 2, NULL, NULL, 413, '2022-04-04 02:13:13', 36),
 	(569, 2, NULL, NULL, 413, '2022-04-04 02:13:13', 37),
-	(570, 2, NULL, NULL, 413, '2022-04-04 02:13:13', 38);
+	(570, 2, NULL, NULL, 413, '2022-04-04 02:13:13', 38),
+	(571, 1, 'Strongly agree', 1, 414, '2022-04-04 11:03:33', 31),
+	(572, 1, 'Agree', 2, 414, '2022-04-04 11:03:33', 32),
+	(573, 1, 'Agree', 2, 414, '2022-04-04 11:03:33', 33),
+	(574, 1, 'Strongly disagree', 4, 414, '2022-04-04 11:03:33', 34),
+	(575, 1, 'Test', NULL, 414, '2022-04-04 11:03:33', 35),
+	(576, 1, 'Neutral', 5, 414, '2022-04-04 11:03:33', 36),
+	(577, 1, 'Planning', 7, 414, '2022-04-04 11:03:33', 37),
+	(578, 1, '10', 10, 414, '2022-04-04 11:03:33', 38),
+	(586, 1, NULL, NULL, 415, '2022-04-04 13:54:37', 39),
+	(587, 1, NULL, NULL, 415, '2022-04-04 13:54:37', 40),
+	(588, 1, NULL, NULL, 415, '2022-04-04 13:54:37', 41),
+	(589, 1, NULL, NULL, 415, '2022-04-04 13:54:37', 42),
+	(590, 1, NULL, NULL, 415, '2022-04-04 13:54:37', 43),
+	(591, 1, NULL, NULL, 415, '2022-04-04 13:54:37', 44),
+	(592, 1, NULL, NULL, 415, '2022-04-04 13:54:37', 45),
+	(593, 1, NULL, NULL, 415, '2022-04-04 13:54:37', 46),
+	(601, 2, NULL, NULL, 416, '2022-04-04 13:54:55', 39),
+	(602, 2, NULL, NULL, 416, '2022-04-04 13:54:55', 40),
+	(603, 2, NULL, NULL, 416, '2022-04-04 13:54:55', 41),
+	(604, 2, NULL, NULL, 416, '2022-04-04 13:54:55', 42),
+	(605, 2, NULL, NULL, 416, '2022-04-04 13:54:55', 43),
+	(606, 2, NULL, NULL, 416, '2022-04-04 13:54:55', 44),
+	(607, 2, NULL, NULL, 416, '2022-04-04 13:54:55', 45),
+	(608, 2, NULL, NULL, 416, '2022-04-04 13:54:55', 46),
+	(616, 1, 'Agree', 2, 417, '2022-04-04 15:35:23', 31),
+	(617, 1, 'Strongly agree', 1, 417, '2022-04-04 15:35:23', 32),
+	(618, 1, 'Disagree', 3, 417, '2022-04-04 15:35:23', 33),
+	(619, 1, 'Agree', 2, 417, '2022-04-04 15:35:23', 34),
+	(620, 1, 'Yes!', NULL, 417, '2022-04-04 15:35:23', 35),
+	(621, 1, 'Strongly agree', 1, 417, '2022-04-04 15:35:23', 36),
+	(622, 1, 'Documentation', 6, 417, '2022-04-04 15:35:23', 37),
+	(623, 1, '10', 10, 417, '2022-04-04 15:35:23', 38);
 /*!40000 ALTER TABLE `app_data` ENABLE KEYS */;
 
 -- Dumping structure for view actemium_hf.app_data_view
@@ -134,17 +170,20 @@ CREATE TABLE IF NOT EXISTS `app_review_actions` (
   `assigned_to` int(11) NOT NULL DEFAULT 0,
   `app_data_id` int(11) NOT NULL DEFAULT 0,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `complete_date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK__app_data_act` (`app_data_id`),
   KEY `FK_app_review_actions_sys_users` (`assigned_to`),
   CONSTRAINT `FK__app_data_act` FOREIGN KEY (`app_data_id`) REFERENCES `app_data` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `FK_app_review_actions_sys_users` FOREIGN KEY (`assigned_to`) REFERENCES `sys_users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table actemium_hf.app_review_actions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `app_review_actions` DISABLE KEYS */;
-INSERT INTO `app_review_actions` (`id`, `action`, `category`, `status`, `target_date`, `assigned_to`, `app_data_id`, `date_created`) VALUES
-	(9, 'Organise free pizza!', 'pizza', 'New', '2022-04-17', 6, 345, '2022-04-04 01:18:51');
+INSERT INTO `app_review_actions` (`id`, `action`, `category`, `status`, `target_date`, `assigned_to`, `app_data_id`, `date_created`, `complete_date`) VALUES
+	(9, 'Organise free pizza!', 'pizza', 'Complete', '2022-04-17', 6, 345, '2022-04-04 01:18:51', '2022-04-04 13:14:54'),
+	(10, 'Organise 1-2-1 sesion ', 'review', 'New', '2022-04-15', 6, 341, '2022-04-04 13:49:33', NULL),
+	(11, 'Follow up meeting', 'meeting', 'Complete', '2022-04-07', 6, 616, '2022-04-04 15:39:39', '2022-04-04 15:40:15');
 /*!40000 ALTER TABLE `app_review_actions` ENABLE KEYS */;
 
 -- Dumping structure for table actemium_hf.app_review_comments
@@ -159,13 +198,17 @@ CREATE TABLE IF NOT EXISTS `app_review_comments` (
   KEY `FK__app_data` (`app_data_id`),
   CONSTRAINT `FK__app_data` FOREIGN KEY (`app_data_id`) REFERENCES `app_data` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `FK__sys_users_c` FOREIGN KEY (`user_id`) REFERENCES `sys_users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.app_review_comments: ~0 rows (approximately)
+-- Dumping data for table actemium_hf.app_review_comments: ~3 rows (approximately)
 /*!40000 ALTER TABLE `app_review_comments` DISABLE KEYS */;
 INSERT INTO `app_review_comments` (`id`, `user_id`, `comment`, `app_data_id`, `comment_date`) VALUES
 	(25, 6, 'Consider it done!', 345, '2022-04-04 01:18:19'),
-	(26, 6, 'jhkj', 548, '2022-04-04 02:10:11');
+	(26, 6, 'jhkj', 548, '2022-04-04 02:10:11'),
+	(27, 6, 'Good to hear!', 571, '2022-04-04 11:06:20'),
+	(28, 6, 'We agreed the need for 1-2-1 review session to review progress', 341, '2022-04-04 13:49:04'),
+	(29, 6, 'Adding comment', 548, '2022-04-04 14:00:31'),
+	(30, 6, 'Comment', 616, '2022-04-04 15:38:56');
 /*!40000 ALTER TABLE `app_review_comments` ENABLE KEYS */;
 
 -- Dumping structure for table actemium_hf.app_templates
@@ -238,7 +281,7 @@ INSERT INTO `question_options` (`id`, `option`, `opt_group_id`, `order`, `date_c
 	(1, 'Strongly agree', 1, 1, NULL, '#2bff00'),
 	(2, 'Agree', 1, 2, NULL, '#00ffae'),
 	(3, 'Disagree', 1, 5, NULL, '#e38800'),
-	(4, 'Strongly disagree', 1, 3, NULL, '#ed4763'),
+	(4, 'Strongly disagree', 1, 3, NULL, '#00ffae'),
 	(5, 'Neutral', 1, 4, NULL, '#a1a1a1'),
 	(6, 'Documentation', 2, 1, '2022-04-03 17:17:32', '#ff24cc'),
 	(7, 'Planning', 2, 2, '2022-04-03 17:18:07', '#b4bf75'),
@@ -260,7 +303,7 @@ CREATE TABLE IF NOT EXISTS `question_option_groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table actemium_hf.question_option_groups: ~4 rows (approximately)
+-- Dumping data for table actemium_hf.question_option_groups: ~3 rows (approximately)
 /*!40000 ALTER TABLE `question_option_groups` DISABLE KEYS */;
 INSERT INTO `question_option_groups` (`id`, `group_name`, `date_created`) VALUES
 	(1, 'Agreement level', '2022-03-22 21:46:04'),
@@ -327,7 +370,7 @@ INSERT INTO `sys_users` (`id`, `email`, `name`, `password`, `role`, `avatar`, `d
 	(3, 'Sarah@test.com', 'Sarah', 'Karl1234', 'eng', '/assets/img/avatars/Sarah.jpg', '2022-03-18 17:40:24'),
 	(4, 'Lucy@test.com', 'Lucy', 'Karl1234', 'eng', '/assets/img/avatars/Lucy.jpg', '2022-03-18 17:40:24'),
 	(5, 'Manager@test.com', 'Test Manager', 'Karl1234', 'eng', '/assets/img/avatars/Jack.jpg', '2022-03-20 15:54:02'),
-	(6, 'karl.webster@outlook.com', 'Karl', 'Karl1234', 'pm', '/assets/img/avatars/Jack.jpg', '2022-03-30 16:55:01');
+	(6, 'steve@test.com', 'Steve', 'Karl1234', 'pm', '/assets/img/avatars/Jack.jpg', '2022-03-30 16:55:01');
 /*!40000 ALTER TABLE `sys_users` ENABLE KEYS */;
 
 -- Dumping structure for trigger actemium_hf.appraisals_after_insert
