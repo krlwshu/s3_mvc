@@ -1,5 +1,9 @@
 # Engineer Appraisal System - Installation instructions
 
+## Summary:
+CodeIgniter 4 (PHP MVC for app)
+MySQL (Database)
+
 ## Clone repo to install codebase
 gh repo clone krlwshu/s3_mvc
 
@@ -24,5 +28,8 @@ From root, run: ```php spark serve```
 
 http://localhost:8080 (depending on your port config)
 
-
+### Example accounts:
+steve@test.com (PM role)
+sarah@test.com (Engineer)
+All credentials are ```Test1234```
 
