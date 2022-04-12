@@ -19,7 +19,7 @@ run the following from the project root: ```compose install```
 
 Locate Db.sql from codebase root and import into MySQL database instance
 
-mysql -u root -p db_name  < Db.sql
+mysql -u root -p db_name  < DbFile.sql
 
 ## Run Apache Spark (dependency)
 From root, run: ```php spark serve```
