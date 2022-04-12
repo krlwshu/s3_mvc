@@ -1,15 +1,16 @@
 # Engineer Appraisal System - Installation instructions
 
 ## Summary:
-CodeIgniter 4 (PHP MVC for app)
-MySQL (Database)
+- CodeIgniter 4 (PHP MVC for app) https://codeigniter.com/user_guide/intro/index.html 
+- MySQL 8 (Database) - https://dev.mysql.com/doc/relnotes/mysql/8.0/en/
+- Composer  (https://getcomposer.org/)
 
 ## Clone repo to install codebase
 gh repo clone krlwshu/s3_mvc
 
 ## Install dependencies
 
-run the following from the project root: ```compose install```
+run the following from the project root: ```compose install``` or ```php composer.phar update```
 
 ## Set up DB
 
