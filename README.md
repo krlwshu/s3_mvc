@@ -29,7 +29,7 @@ From root, run: ```php spark serve```
 http://localhost:8080 (depending on your port config)
 
 ### Example accounts:
-steve@test.com (PM role)
-sarah@test.com (Engineer)
-All credentials are ```Test1234```
+- steve@test.com (PM role)
+- sarah@test.com (Engineer)
+- All credentials are ```Test1234```
 
